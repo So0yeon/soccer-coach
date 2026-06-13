@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>감독의 선택 — Coach's Choice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0D1A30; --navy2:#142540; --navy3:#1C3154;
+  --paper:#F8F5EE; --paper2:#EFE9DC; --ink:#1B2A44;
+  --gold:#C9A227; --gold2:#E8C95C; --goldd:#9A7B14;
+  --green:#23694A; --greenline:rgba(255,255,255,.35);
+  --red:#C0392B; --good:#2E8B57;
+  --glass:rgba(255,255,255,.08); --glassb:rgba(255,255,255,.16);
+  --shadow:0 18px 50px rgba(0,0,0,.45);
+  --r:18px;
+  --serif:'Noto Serif KR',serif; --sans:'Noto Sans KR',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:var(--sans); color:#EAF0FA; background:var(--navy);
+  background-image:
+    radial-gradient(1200px 700px at 75% -10%, #21406E 0%, transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, #112245 0%, transparent 55%),
+    repeating-linear-gradient(115deg, rgba(255,255,255,.012) 0 2px, transparent 2px 9px);
+  min-height:100vh; overflow-x:hidden;
+}
+#app{max-width:980px;margin:0 auto;padding:18px 14px 80px;min-height:100vh;position:relative}
+.fade{animation:fadeUp .45s cubic-bezier(.2,.7,.3,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.92);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes shimmer{0%{background-position:-300px 0}100%{background-position:300px 0}}
+@keyframes pulseGold{0%,100%{box-shadow:0 0 0 0 rgba(201,162,39,.45)}50%{box-shadow:0 0 0 10px rgba(201,162,39,0)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ----- 상단 바 ----- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-weight:900;font-size:18px;letter-spacing:.06em;color:var(--gold2)}
+.brand small{display:block;font-family:var(--sans);font-weight:500;font-size:10px;letter-spacing:.4em;color:#8FA2C4}
+.statchips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:var(--glass);border:1px solid var(--glassb);backdrop-filter:blur(8px);border-radius:99px;padding:5px 12px;font-size:12px;font-weight:700;display:flex;gap:6px;align-items:center}
+.chip b{color:var(--gold2)}
+.iconbtn{background:var(--glass);border:1px solid var(--glassb);color:#EAF0FA;border-radius:12px;padding:7px 11px;cursor:pointer;font-size:14px;backdrop-filter:blur(8px);transition:.2s}
+.iconbtn:hover{border-color:var(--gold);color:var(--gold2)}
+
+/* ----- 글래스 카드 ----- */
+.glass{background:var(--glass);border:1px solid var(--glassb);backdrop-filter:blur(14px);border-radius:var(--r);box-shadow:var(--shadow)}
+.panel{padding:22px}
+.eyebrow{font-size:11px;letter-spacing:.35em;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+h1.display{font-family:var(--serif);font-weight:900;font-size:clamp(34px,7vw,58px);line-height:1.12;color:#fff}
+h2.scene{font-family:var(--serif);font-weight:800;font-size:clamp(20px,4vw,28px);color:#fff;margin-bottom:10px}
+.lead{color:#C5D2E8;line-height:1.75;font-size:15px}
+.goldline{height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin:14px 0;border-radius:2px}
+
+/* ----- 선택지 ----- */
+.choices{display:grid;gap:10px;margin-top:18px}
+.choice{
+  text-align:left;background:rgba(255,255,255,.05);border:1px solid var(--glassb);
+  color:#EAF0FA;border-radius:14px;padding:14px 16px;font-size:14.5px;font-weight:600;
+  cursor:pointer;transition:transform .15s, border-color .2s, background .2s;font-family:var(--sans);
+  display:flex;gap:12px;align-items:center;
+}
+.choice:hover{transform:translateX(4px);border-color:var(--gold);background:rgba(201,162,39,.1)}
+.choice .key{flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-weight:900;font-size:13px}
+.choice small{display:block;font-weight:400;color:#9FB2D2;font-size:12px;margin-top:2px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold),var(--goldd));
+  color:#10182A;font-weight:900;border:none;border-radius:13px;padding:13px 24px;font-size:15px;cursor:pointer;
+  font-family:var(--sans);transition:transform .15s, filter .2s;box-shadow:0 8px 24px rgba(201,162,39,.3);
+}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:#EAF0FA;border:1px solid var(--glassb);box-shadow:none;font-weight:700}
+.btn.ghost:hover{border-color:var(--gold);color:var(--gold2)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* ----- 책상(허브) ----- */
+.desk{
+  border-radius:24px;padding:26px 22px 30px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(700px 280px at 50% -60px, rgba(255,255,255,.07), transparent 70%),
+    linear-gradient(160deg,#3A2A1C 0%, #2A1D12 55%, #1F150C 100%);
+  border:1px solid rgba(201,162,39,.25);box-shadow:var(--shadow), inset 0 0 80px rgba(0,0,0,.5);
+}
+.desk::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(95deg,rgba(255,255,255,.018) 0 3px,transparent 3px 14px);pointer-events:none}
+.deskgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:18px;position:relative}
+.deskitem{
+  border-radius:14px;padding:16px 14px;cursor:pointer;border:none;text-align:left;font-family:var(--sans);
+  transition:transform .18s, box-shadow .2s;position:relative;min-height:108px;display:flex;flex-direction:column;justify-content:space-between;
+  box-shadow:0 10px 24px rgba(0,0,0,.4);
+}
+.deskitem:hover{transform:translateY(-5px) rotate(-.4deg);box-shadow:0 18px 34px rgba(0,0,0,.55)}
+.deskitem .di-ic{font-size:26px}
+.deskitem .di-t{font-weight:900;font-size:14px;margin-top:8px}
+.deskitem .di-s{font-size:11px;opacity:.75;margin-top:2px}
+.di-board{background:linear-gradient(160deg,#2E7D52,#1E5B3A);color:#F1FFF6;border:1px solid rgba(255,255,255,.2)}
+.di-note{background:linear-gradient(160deg,#F8F5EE,#E9E2D0);color:var(--ink)}
+.di-news{background:linear-gradient(160deg,#ECEBE6,#D9D7CE);color:#222;font-family:var(--serif)}
+.di-sched{background:linear-gradient(160deg,#22365C,#16263F);color:#EAF0FA;border:1px solid var(--glassb)}
+.di-trophy{background:linear-gradient(160deg,#191919,#0E0E0E);color:var(--gold2);border:1px solid rgba(201,162,39,.4)}
+.di-coffee{background:radial-gradient(circle at 30% 25%, #6F4A2D, #3D2716);color:#F4E8DA;animation:pulseGold 2.6s infinite}
+.di-coach{background:linear-gradient(160deg,#4A3B6B,#2C2344);color:#EFE9FF}
+.di-memo{background:linear-gradient(160deg,#FFF3A8,#F4DE6C);color:#4A3B00;transform:rotate(1.3deg)}
+.di-memo:hover{transform:rotate(0) translateY(-5px)}
+
+/* ----- 전광판/경기 ----- */
+.scorebar{display:flex;align-items:center;justify-content:center;gap:14px;padding:14px 10px;border-radius:16px;
+  background:linear-gradient(160deg,#0A1426,#101F3A);border:1px solid var(--glassb);margin-bottom:14px;flex-wrap:wrap}
+.scorebar .team{font-weight:900;font-size:15px;display:flex;align-items:center;gap:7px}
+.scorebar .score{font-family:var(--serif);font-weight:900;font-size:34px;color:var(--gold2);min-width:86px;text-align:center;letter-spacing:.1em}
+.scorebar .clock{font-size:12px;color:#8FA2C4;width:100%;text-align:center;letter-spacing:.25em;font-weight:700}
+.pitch{
+  border-radius:16px;padding:18px;margin-bottom:14px;position:relative;
+  background:repeating-linear-gradient(0deg,#2E7D52 0 26px,#28704A 26px 52px);
+  border:1px solid rgba(255,255,255,.25); box-shadow:inset 0 0 60px rgba(0,0,0,.3);
+}
+.pitch::before{content:"";position:absolute;inset:12px;border:2px solid var(--greenline);border-radius:8px;pointer-events:none}
+.pitch::after{content:"";position:absolute;left:12px;right:12px;top:50%;height:2px;background:var(--greenline)}
+.pitch .ptxt{position:relative;z-index:2;color:#F1FFF6;font-weight:700;line-height:1.7;font-size:15px;text-shadow:0 2px 6px rgba(0,0,0,.5)}
+.ticker{font-size:12.5px;color:#9FB2D2;line-height:1.9;max-height:150px;overflow-y:auto;padding-right:6px}
+.ticker b{color:var(--gold2)}
+.ticker .goal{color:#FFE08A;font-weight:900}
+
+/* ----- 해설 박스 ----- */
+.commbox{display:flex;gap:12px;align-items:flex-start;background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.35);
+  border-left:4px solid var(--gold);border-radius:12px;padding:13px 15px;margin-top:14px;animation:pop .35s both}
+.commbox .avatar{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-size:19px}
+.commbox .who{font-size:11px;font-weight:900;color:var(--gold2);letter-spacing:.15em;margin-bottom:3px}
+.commbox p{font-size:13.5px;line-height:1.7;color:#EFE3BC}
+.rulecard-pop{display:inline-flex;align-items:center;gap:6px;margin-top:8px;background:var(--gold);color:var(--navy);
+  font-size:11px;font-weight:900;padding:4px 10px;border-radius:99px}
+
+/* ----- 종이 문서(수첩/신문/보고서) ----- */
+.paperdoc{background:var(--paper);color:var(--ink);border-radius:14px;padding:24px;box-shadow:var(--shadow);position:relative}
+.paperdoc::before{content:"";position:absolute;inset:0;border-radius:14px;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent 0 27px,rgba(27,42,68,.05) 27px 28px)}
+.paperdoc h3{font-family:var(--serif);font-weight:900;font-size:20px;margin-bottom:6px}
+.paperdoc .sub{font-size:12px;color:#7A6F58;letter-spacing:.1em;margin-bottom:12px}
+.paperdoc p{font-size:14px;line-height:1.8}
+.newshead{font-family:var(--serif);font-weight:900;font-size:clamp(20px,4.6vw,30px);line-height:1.25;border-bottom:3px double #333;padding-bottom:10px;margin-bottom:10px}
+.rule-entry{border:1px solid #D8CFB8;border-radius:12px;padding:14px;margin-bottom:10px;background:#FFFDF7}
+.rule-entry h4{font-weight:900;font-size:15px;display:flex;gap:8px;align-items:center}
+.rule-entry p{font-size:13px;color:#4A4231;margin-top:6px;line-height:1.7}
+.locked{opacity:.45;filter:grayscale(1)}
+
+/* ----- 선수 카드 ----- */
+.squadgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:14px}
+.pcard{background:rgba(255,255,255,.06);border:1px solid var(--glassb);border-radius:13px;padding:12px;cursor:pointer;transition:.18s;text-align:left;color:#EAF0FA;font-family:var(--sans)}
+.pcard:hover{border-color:var(--gold)}
+.pcard.sel{border-color:var(--gold);background:rgba(201,162,39,.16);box-shadow:0 0 0 1px var(--gold)}
+.pcard .pos{font-size:10px;font-weight:900;letter-spacing:.2em;color:var(--gold2)}
+.pcard .nm{font-weight:900;font-size:15px;margin:3px 0}
+.pcard .tr{font-size:11px;color:#9FB2D2}
+.pcard .ovr{float:right;font-family:var(--serif);font-weight:900;font-size:19px;color:var(--gold2)}
+
+/* ----- 능력치 바 ----- */
+.statrow{display:flex;align-items:center;gap:10px;margin:9px 0}
+.statrow .lb{flex:0 0 92px;font-size:13px;font-weight:700}
+.statrow .bar{flex:1;height:9px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+.statrow .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--goldd),var(--gold2));border-radius:99px;transition:width .5s}
+.statrow .vl{flex:0 0 28px;text-align:right;font-weight:900;color:var(--gold2);font-size:13px}
+.plusbtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--gold);background:transparent;color:var(--gold2);font-weight:900;cursor:pointer;font-size:16px}
+.plusbtn:hover{background:var(--gold);color:var(--navy)}
+
+/* ----- 트로피/수집 ----- */
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-top:14px}
+.shelfitem{background:linear-gradient(160deg,#191919,#0D0D0D);border:1px solid rgba(201,162,39,.35);border-radius:13px;padding:16px 10px;text-align:center}
+.shelfitem .ic{font-size:30px}
+.shelfitem .t{font-size:12px;font-weight:900;color:var(--gold2);margin-top:8px}
+.shelfitem .d{font-size:10.5px;color:#8B8B8B;margin-top:3px;line-height:1.5}
+
+/* ----- 결과 배너 ----- */
+.bigresult{font-family:var(--serif);font-weight:900;font-size:clamp(36px,9vw,68px);text-align:center;
+  background:linear-gradient(110deg,var(--gold2) 30%,#FFF7DD 50%,var(--gold) 70%);background-size:600px 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 2.4s linear infinite;margin:8px 0}
+.tag{display:inline-block;background:rgba(255,255,255,.08);border:1px solid var(--glassb);border-radius:99px;padding:4px 12px;font-size:11.5px;font-weight:700;color:#C5D2E8;margin:3px 3px 0 0}
+.tag.gold{border-color:var(--gold);color:var(--gold2)}
+
+.modal-back{position:fixed;inset:0;background:rgba(5,10,20,.7);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px;z-index:50;animation:fadeUp .25s both}
+.modal{max-width:680px;width:100%;max-height:86vh;overflow-y:auto}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.row2{grid-template-columns:1fr}}
+.hint{font-size:11.5px;color:#7E91B4;margin-top:10px;line-height:1.6}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--gold);color:var(--navy);
+  font-weight:900;font-size:13px;padding:10px 18px;border-radius:99px;z-index:99;box-shadow:0 10px 30px rgba(0,0,0,.5);animation:pop .3s both}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);border-radius:99px}
+button:focus-visible,.choice:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+"use strict";
+/* =========================================================
+   감독의 선택 (Coach's Choice) — 인터랙티브 감독 시뮬레이터
+   가상의 대회 "글로벌 챔피언십" / 모든 선수는 가상 인물
+========================================================= */
+
+/* ---------- 유틸 ---------- */
+const $=s=>document.querySelector(s);
+const APP=()=>$("#app");
+const rnd=n=>Math.floor(Math.random()*n);
+const pick=a=>a[rnd(a.length)];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(msg){const t=document.createElement("div");t.className="toast";t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2200);}
+
+/* ---------- 저장(브라우저에서 열면 영구 저장, 미리보기에선 세션 유지) ---------- */
+const MEM={};
+const store={
+  set(k,v){try{localStorage.setItem(k,v);}catch(e){MEM[k]=v;}},
+  get(k){try{return localStorage.getItem(k);}catch(e){return MEM[k]??null;}},
+  del(k){try{localStorage.removeItem(k);}catch(e){delete MEM[k];}}
+};
+const SAVE_KEY="coach_choice_v1";
+
+/* ---------- 사운드 (Web Audio 합성음) ---------- */
+let AC=null;
+function beep(freq,dur,type="sine",vol=.15,when=0){
+  if(!G.set.sound)return;
+  try{
+    AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.type=type;o.frequency.value=freq;g.gain.value=vol;
+    o.connect(g);g.connect(AC.destination);
+    const t=AC.currentTime+when;o.start(t);
+    g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+dur);
+    o.stop(t+dur);
+  }catch(e){}
+}
+const snd={
+  click(){beep(660,.06,"triangle",.08);},
+  whistle(){beep(2200,.22,"square",.07);beep(2400,.3,"square",.06,.18);},
+  goal(){[523,659,784,1046].forEach((f,i)=>beep(f,.25,"triangle",.14,i*.09));},
+  bad(){beep(220,.3,"sawtooth",.09);beep(180,.35,"sawtooth",.08,.12);},
+  ding(){beep(1318,.4,"sine",.12);}
+};
+</script>
+<script>
+"use strict";
+/* =========================================================
+   데이터: 규칙 도감 / 선수단 / 대진 / 이벤트 풀
+========================================================= */
+
+/* ---------- 규칙 도감 (해설 3종: b=초보, p=전문, c=전직감독) ---------- */
+const RULES={
+offside:{ic:"🚩",nm:"오프사이드",
+ b:"패스하는 순간, 공격수가 상대 수비수 중 뒤에서 두 번째 선수보다 골문에 더 가까이 있으면 반칙이에요. 쉽게 말해 '몰래 앞에 가서 기다리기 금지'랍니다!",
+ p:"패스가 발을 떠나는 순간을 기준으로, 공격수의 신체(손·팔 제외)가 최후방 두 번째 수비수보다 골라인에 가까우면 오프사이드 포지션입니다. 그 위치에서 플레이에 관여해야 반칙이 성립합니다.",
+ c:"내가 감독할 때 제일 무서운 게 이거였어요. 라인 하나 잘못 맞추면 골이 취소되거든. 핵심은 '패스 순간'의 위치라는 것, 그리고 위치만으로는 반칙이 아니고 플레이에 관여해야 한다는 것."},
+handball:{ic:"🖐️",nm:"핸드볼 반칙",
+ b:"손이나 팔로 공을 건드리면 반칙이에요. 단, 일부러가 아니고 팔이 몸에 자연스럽게 붙어 있었다면 봐주기도 해요. 골키퍼는 자기 페널티 박스 안에서만 손을 쓸 수 있어요.",
+ p:"팔이 부자연스럽게 몸을 크게 만든 상태에서 공에 닿으면 반칙입니다. 페널티 지역 안에서 수비수가 범하면 페널티킥, 밖이면 직접 프리킥이 주어집니다.",
+ c:"수비수들에게 늘 말했죠. '박스 안에선 팔을 등 뒤로!' 요즘 규정은 팔의 위치가 '자연스러운가'를 봅니다. 점프할 때 팔을 벌리는 습관, 그게 PK를 부르는 겁니다."},
+var:{ic:"📺",nm:"VAR (비디오 판독)",
+ b:"심판이 못 본 장면을 비디오로 다시 확인하는 제도예요. 골, 페널티킥, 레드카드, 사람을 잘못 본 경우 — 이 네 가지 큰 상황에서만 쓸 수 있어요.",
+ p:"VAR은 '명백하고 분명한 오심'에만 개입합니다. 득점, PK, 직접 퇴장, 제재 선수 오인 — 4가지 상황으로 한정되며, 최종 결정 권한은 여전히 주심에게 있습니다.",
+ c:"VAR 시대의 감독은 판정에 일희일비하면 안 돼요. 휘슬이 불려도 3분 뒤 뒤집힐 수 있으니까. 선수들에게 '판독 끝날 때까지 집중 유지'를 훈련시키는 게 요즘 감독의 일입니다."},
+yellow:{ic:"🟨",nm:"경고 (옐로카드)",
+ b:"위험하거나 비신사적인 행동을 하면 노란 카드를 받아요. 한 경기에서 두 장 받으면 퇴장! 대회에선 경고가 쌓이면 다음 경기에 못 나가기도 해요.",
+ p:"반스포츠 행위, 전술적 파울, 지연 행위, 항의 등에 경고가 주어집니다. 동일 경기 2회 경고는 퇴장이며, 대회 규정상 경고 누적 시 차기 경기 출전이 정지됩니다.",
+ c:"경고 하나 있는 선수를 계속 쓸지가 감독의 진짜 고민이에요. 수비형 미드필더가 경고를 달고 있으면 태클 강도가 떨어지거든. 그래서 교체 타이밍이 전술이 되는 겁니다."},
+red:{ic:"🟥",nm:"퇴장 (레드카드)",
+ b:"아주 위험한 태클이나 심한 행동을 하면 빨간 카드를 받고 바로 경기장 밖으로 나가야 해요. 그 팀은 남은 시간 동안 10명으로 싸워야 한답니다.",
+ p:"심각한 파울 플레이, 난폭 행위, 명백한 득점 기회 저지(DOGSO) 등에 직접 퇴장이 선언됩니다. 퇴장 선수는 교체로 채울 수 없어 수적 열세가 됩니다.",
+ c:"10명이 되면 감독은 3초 안에 결정해야 해요. 누굴 빼고 라인을 어떻게 내릴지. 미리 '한 명 퇴장 시나리오'를 훈련해 둔 팀과 아닌 팀은 하늘과 땅 차이입니다."},
+pk:{ic:"⚪",nm:"페널티킥",
+ b:"페널티 박스 안에서 수비팀이 반칙하면 골문에서 11m 떨어진 점에서 키커와 골키퍼가 1:1로 승부해요. 다른 선수들은 박스 밖에서 기다려야 해요.",
+ p:"페널티 지역 내 직접 프리킥 반칙 시 선언됩니다. 골키퍼는 킥 순간 한 발이 골라인 위 또는 그 선상에 있어야 하며, 위반 시 득점 실패 시 재킥이 주어질 수 있습니다.",
+ c:"PK는 기술 반, 심리 반이에요. 나는 키커에게 늘 '코스를 먼저 정하고 절대 바꾸지 마라'고 했어요. 골키퍼의 움직임을 보고 차려다 실패하는 경우가 제일 많거든."},
+freekick:{ic:"🎯",nm:"프리킥",
+ b:"반칙이 일어난 자리에서 공을 다시 차는 거예요. 직접 골을 노릴 수 있는 '직접 프리킥'과, 다른 선수를 거쳐야 하는 '간접 프리킥'이 있어요. 수비벽은 9.15m 떨어져야 해요.",
+ p:"직접 프리킥은 슈팅으로 즉시 득점이 인정되며, 간접 프리킥은 타 선수 접촉 후에만 득점이 인정됩니다. 수비벽은 공에서 9.15m(10야드) 이상 물러나야 합니다.",
+ c:"좋은 팀은 프리킥 루틴이 서너 개씩 있어요. 벽 옆에 우리 선수를 세우는 것도, 키커를 둘 세우는 것도 다 심리전이죠. 세트피스는 '연습한 만큼' 나옵니다."},
+corner:{ic:"🚩",nm:"코너킥",
+ b:"수비팀이 마지막으로 건드린 공이 골라인 밖으로 나가면, 공격팀이 모서리 깃발 자리에서 공을 차는 거예요. 골로 이어지는 경우가 정말 많아요!",
+ p:"수비 측 최종 터치로 볼이 골라인을 완전히 넘으면 공격 측 코너킥입니다. 코너킥에서 직접 득점도 인정됩니다. 세트피스 득점의 핵심 루트입니다.",
+ c:"통계상 득점의 3분의 1 가까이가 세트피스에서 나와요. 코너킥 수비를 지역방어로 할지 대인방어로 할지 — 그 선택이 토너먼트의 운명을 가르기도 합니다."},
+throwin:{ic:"🙌",nm:"스로인",
+ b:"공이 옆줄 밖으로 나가면 두 손으로 머리 뒤에서 던져 넣어요. 두 발이 땅에 붙어 있어야 하고, 스로인으로는 바로 골을 넣을 수 없어요.",
+ p:"양발이 지면에 닿은 상태로 양손으로 머리 뒤에서 던져야 하며, 파울 스로 시 상대에게 스로인이 넘어갑니다. 스로인 직접 득점은 인정되지 않습니다.",
+ c:"롱스로인을 가진 선수 하나면 코너킥이 하나 더 생기는 셈이에요. 스로인을 '그냥 재개'로 보는 팀과 '공격 기회'로 보는 팀의 차이, 그게 디테일입니다."},
+goalkick:{ic:"🦵",nm:"골킥과 빌드업",
+ b:"공격팀이 마지막으로 건드린 공이 골라인 밖으로 나가면 골키퍼가 골 에어리어에서 다시 차요. 요즘은 가까운 수비수에게 짧게 줘서 공격을 시작하기도 해요.",
+ p:"골킥 시 볼이 킥과 동시에 인플레이가 되므로, 페널티 지역 안에서도 아군이 받을 수 있습니다(상대는 지역 밖 대기). 후방 빌드업 전술의 출발점입니다.",
+ c:"골킥 하나에도 철학이 드러나요. 길게 차서 안전하게 갈 건가, 짧게 이어 점유를 가져갈 건가. 후방 빌드업은 매력적이지만, 실수하면 바로 실점이라는 걸 잊으면 안 됩니다."},
+advantage:{ic:"➡️",nm:"어드밴티지",
+ b:"반칙이 있어도 공격팀에게 더 유리하면 심판이 휘슬을 불지 않고 '계속해!'라고 하는 거예요. 팔을 앞으로 뻗는 동작이 그 신호랍니다.",
+ p:"반칙 발생 시 공격 측이 이익을 유지하면 주심은 플레이를 속행시킬 수 있습니다. 수 초 내 이익이 사라지면 원래 반칙으로 되돌려 프리킥을 선언합니다.",
+ c:"어드밴티지 상황에서 멈칫하는 팀은 훈련이 덜 된 팀이에요. '휘슬이 울릴 때까지 플레이하라' — 기본이지만 토너먼트에서 골 하나를 바꾸는 기본이죠."},
+backpass:{ic:"↩️",nm:"백패스 규정",
+ b:"같은 팀 선수가 발로 일부러 차 준 공은 골키퍼가 손으로 잡으면 안 돼요! 잡으면 그 자리에서 상대에게 간접 프리킥을 줘요.",
+ p:"아군이 의도적으로 발로 패스한 볼, 스로인으로 전달한 볼을 골키퍼가 손으로 처리하면 간접 프리킥이 선언됩니다. 헤더나 가슴 패스는 허용됩니다.",
+ c:"1992년에 생긴 규칙인데, 이게 현대 축구를 바꿨어요. 골키퍼도 발기술이 필수가 됐죠. 우리 골키퍼 훈련의 절반이 발 훈련인 이유입니다."},
+sixsec:{ic:"⏱️",nm:"골키퍼 소유 제한",
+ b:"골키퍼는 공을 손에 들고 너무 오래 갖고 있으면 안 돼요. 시간을 끌면 심판이 경고하고 상대에게 기회를 줄 수 있어요.",
+ p:"골키퍼가 손으로 볼을 과도하게 오래 소유하면 지연 행위로 제재될 수 있습니다. 최근 규정 개정 흐름은 8초 초과 시 상대 코너킥을 부여하는 방향입니다.",
+ c:"이기고 있을 때 골키퍼가 시간을 끌고 싶은 유혹, 다 알아요. 하지만 심판 눈 밖에 나면 경기 끝까지 불리해져요. 시간은 다른 방법으로 쓰는 겁니다."},
+addedtime:{ic:"➕",nm:"추가시간",
+ b:"전·후반 45분 동안 부상이나 교체로 멈췄던 시간을 모아서 끝에 더 주는 거예요. 제4심판이 들어 올리는 전광판 숫자가 바로 그것!",
+ p:"교체, 부상 처치, 득점 세리머니, VAR 판독 등으로 소요된 시간을 주심이 산정해 각 하프 종료 시 추가합니다. 표시된 시간은 '최소' 시간입니다.",
+ c:"추가시간 4분은 진짜 4분이 아니에요. '최소 4분'이죠. 추가시간 골이 많은 팀은 운이 좋은 게 아니라, 마지막 1분까지 뛰도록 훈련된 팀입니다."},
+sub:{ic:"🔄",nm:"선수 교체 규정",
+ b:"한 팀은 경기당 보통 5명까지 교체할 수 있어요. 한 번 나간 선수는 다시 들어올 수 없으니 교체는 신중하게!",
+ p:"교체는 최대 5명, 교체 기회(횟수)는 하프타임 제외 3회로 제한되는 것이 일반적입니다. 연장전 돌입 시 추가 교체 1명이 허용됩니다.",
+ c:"교체 카드 5장은 감독의 총알이에요. 너무 아끼면 못 쓰고 끝나고, 너무 일찍 쓰면 부상 때 손이 묶이죠. 나는 항상 한 장은 '보험'으로 남겼습니다."},
+goalline:{ic:"🥅",nm:"골라인 판독",
+ b:"공이 골라인을 '완전히' 넘어야 골이에요! 조금이라도 선에 걸쳐 있으면 골이 아니에요. 요즘은 기계가 1초 만에 심판 시계로 알려줘요.",
+ p:"볼 전체가 골라인을 완전히 통과해야 득점입니다. 골라인 테크놀로지(GLT)가 통과 여부를 감지해 주심의 시계에 즉시 신호를 보냅니다.",
+ c:"맨눈으로는 절대 못 보는 몇 밀리미터 차이가 있어요. 기술 도입 전엔 '유령골' 논쟁으로 대회가 뒤집히곤 했죠. 이제 선수들에게 말합니다 — 끝까지 밀어 넣어라."},
+dropball:{ic:"🤲",nm:"드롭볼",
+ b:"심판이 실수로 공에 맞거나, 경기가 예상 못 한 이유로 멈추면 공을 떨어뜨려 다시 시작해요. 마지막에 공을 갖고 있던 팀에게 돌려준답니다.",
+ p:"주심 접촉으로 소유가 바뀌는 등 규정된 상황에서는 마지막 터치 팀(페널티 지역 내에서는 골키퍼)에게 드롭볼로 재개하며, 상대는 4m 이상 물러나야 합니다.",
+ c:"예전엔 드롭볼 경합으로 싸움도 났어요. 지금은 한 팀에게 깔끔하게 돌려주죠. 규칙은 이렇게 '논란을 줄이는 방향'으로 진화합니다."},
+extratime:{ic:"⏰",nm:"연장전",
+ b:"토너먼트에서 비기면 15분씩 두 번 더 싸워요. 그래도 비기면 승부차기로! 옛날에 있던 '골든골(먼저 넣으면 끝)'은 이제 없어요.",
+ p:"녹아웃 스테이지 무승부 시 전·후반 15분의 연장전을 치릅니다. 골든골·실버골 제도는 폐지되어 연장 30분을 모두 소화한 뒤 승부를 가립니다.",
+ c:"연장전은 다리가 아니라 머리로 뛰는 시간이에요. 90분을 계산해서 연장 교체 카드를 남겨둔 감독이 결국 웃습니다."},
+shootout:{ic:"🥇",nm:"승부차기",
+ b:"연장전까지 비기면 양 팀이 번갈아 5번씩 페널티킥을 차요. 5번 안에 승부가 안 나면 한 명씩 계속! 골키퍼에겐 최고의 무대랍니다.",
+ p:"각 팀 5명이 교대로 키킹하며, 5인 종료 전 승부가 확정되면 즉시 종료됩니다. 동률 시 서든데스로 진행하며, 키커 순서는 감독이 제출합니다.",
+ c:"승부차기 순서표가 감독의 마지막 작품이에요. 가장 강한 키커를 1번에 둘지 5번에 둘지, 정답은 없지만 철학은 있어야 합니다. 그리고 골키퍼에게 한마디 — '네가 영웅이 될 시간이다.'"},
+dogso:{ic:"🚫",nm:"결정적 득점기회 저지",
+ b:"골을 넣을 게 거의 확실한 선수를 반칙으로 막으면 아주 무거운 벌을 받아요. 페널티 박스 밖이면 퇴장까지 나올 수 있어요!",
+ p:"명백한 득점 기회를 반칙으로 저지(DOGSO)하면 원칙적으로 퇴장입니다. 단, 페널티 지역 내에서 볼을 향한 정당한 시도 중의 파울은 경고로 감경됩니다.",
+ c:"수비수에게 가장 어려운 판단이에요. 뚫리면 실점, 잡으면 퇴장. 나는 '박스 밖에선 절대 마지막 수비수가 도박하지 마라'고 가르쳤습니다."}
+};
+
+/* ---------- 가상 선수단 ---------- */
+function mkP(nm,pos,ovr,tr){return{nm,pos,ovr,tr,id:nm};}
+const SQUAD=[
+ mkP("백한결","GK",84,"공중볼 장악·PK 선방 특기"),mkP("오지운","GK",80,"발밑이 좋은 빌드업형"),
+ mkP("강도윤","DF",85,"리더십 있는 센터백"),mkP("서이안","DF",83,"빠른 커버형 센터백"),mkP("문주혁","DF",82,"왕성한 오버래핑 풀백"),
+ mkP("임채오","DF",81,"크로스 정확한 윙백"),mkP("하태성","DF",79,"투지 넘치는 파이터"),mkP("정누리","DF",77,"멀티 포지션 자원"),
+ mkP("차민건","MF",86,"경기 조율하는 두뇌"),mkP("유라온","MF",84,"중원 사냥꾼·태클 장인"),mkP("노해담","MF",83,"전진 드리블러"),
+ mkP("배시후","MF",81,"세트피스 키커"),mkP("권온유","MF",78,"지칠 줄 모르는 박스투박스"),mkP("신바울","MF",75,"패기의 영건"),
+ mkP("이도현","FW",87,"결정력 갑 스트라이커"),mkP("한새벽","FW",84,"폭발 스피드 윙어"),
+ mkP("표찬","FW",81,"공중전 타깃맨"),mkP("구슬찬","FW",76,"18세 슈퍼 유망주")
+];
+const CAPTAINS=["강도윤","차민건","이도현","백한결","유라온"];
+
+/* ---------- 대진표 ---------- */
+const FIXTURES=[
+ {st:"조별리그 1차전",opp:"멕시코",fl:"🇲🇽",pw:78,style:"강한 전방 압박과 빠른 측면",ko:false},
+ {st:"조별리그 2차전",opp:"스웨덴",fl:"🇸🇪",pw:80,style:"공중볼과 세트피스의 강자",ko:false},
+ {st:"조별리그 3차전",opp:"가나",fl:"🇬🇭",pw:77,style:"개인기와 폭발적 역습",ko:false},
+ {st:"16강",opp:"일본",fl:"🇯🇵",pw:82,style:"짧은 패스 점유율 축구",ko:true},
+ {st:"8강",opp:"브라질",fl:"🇧🇷",pw:86,style:"화려한 개인기와 창의성",ko:true},
+ {st:"4강",opp:"프랑스",fl:"🇫🇷",pw:88,style:"속도와 힘, 완성형 전력",ko:true},
+ {st:"결승",opp:"독일",fl:"🇩🇪",pw:89,style:"빈틈없는 조직력의 우승후보",ko:true}
+];
+const TACTICS=[
+ {id:"gegen",nm:"전방 압박 (게겐프레싱)",d:"높은 라인에서 공을 빼앗아 바로 공격. 체력 소모가 크다.",atk:3,def:0,sta:-2},
+ {id:"poss",nm:"점유율 축구 (티키타카)",d:"짧은 패스로 경기를 지배. 인내심이 필요하다.",atk:2,def:1,sta:0},
+ {id:"counter",nm:"선수비 후역습",d:"단단히 잠그고 한 방을 노린다. 강팀 상대로 효과적.",atk:1,def:3,sta:1},
+ {id:"wing",nm:"측면 돌파 축구",d:"빠른 윙어로 측면을 부수고 크로스 폭격.",atk:3,def:-1,sta:-1}
+];
+const TRAININGS=[
+ {id:"setpiece",nm:"세트피스 집중 훈련",d:"코너킥·프리킥 득점 확률 상승",fx:"set"},
+ {id:"fitness",nm:"체력 극대화 훈련",d:"후반·연장 체력 저하 감소",fx:"fit"},
+ {id:"press",nm:"압박 조직 훈련",d:"전술 적합도와 수비 안정 상승",fx:"org"},
+ {id:"pkdrill",nm:"승부차기 특별 훈련",d:"승부차기 성공률 상승",fx:"pk"}
+];
+</script>
+<script>
+"use strict";
+/* =========================================================
+   이벤트 풀 (랜덤 이벤트 100+)
+   ph: pre(준비), h1, h2, add(추가시간), et(연장)
+   fx: mo사기 sta체력 atk공세 def수비 xp경험 press언론 / goal, oppGoal, inj, card
+========================================================= */
+const EV=[];
+function ev(id,ph,rule,txt,ch){EV.push({id,ph,rule,txt,ch});}
+const C=(t,fx,re,sub)=>({t,fx:fx||{},re,sub});
+
+/* ===== 준비 단계 이벤트 (pre) ===== */
+ev("p01",["pre"],null,"훈련 중 주전 미드필더 둘이 거친 태클 문제로 언성을 높였다. 분위기가 싸늘하다.",[
+ C("따로 불러 화해시킨다",{mo:6,xp:2},"두 선수가 악수했다. 라커룸에 웃음이 돌아왔다."),
+ C("팀 전체 앞에서 강하게 질책한다",{mo:-3,def:1,xp:1},"긴장감이 돌지만 훈련 강도는 올라갔다."),
+ C("경쟁은 좋은 것. 모른 척한다",{mo:-5},"갈등의 불씨가 남았다…")]);
+ev("p02",["pre"],null,"에이스 이도현의 슈팅 감각이 영 올라오지 않는다. 코치진이 걱정한다.",[
+ C("개인 슈팅 특훈을 붙인다",{atk:2,sta:-1,xp:2},"밤늦게까지 슈팅 200개. 감각이 살아나는 듯하다."),
+ C("휴식을 주고 마음을 풀어준다",{mo:4,sta:2},"표정이 밝아졌다. 컨디션은 마음에서 나온다."),
+ C("이번 경기는 벤치에서 시작시킨다",{mo:-2,def:1,xp:1},"본인은 서운해하지만 헝그리 정신이 생겼다.")]);
+ev("p03",["pre"],null,"숙소 식단에서 선수들이 좋아하는 메뉴가 빠져 불만이 나온다.",[
+ C("영양사와 상의해 특별식을 준비한다",{mo:5},"불고기의 밤! 사기가 올랐다."),
+ C("대회 기간엔 관리가 우선이라고 설득한다",{sta:2,mo:-1,xp:1},"몸은 가벼워졌다. 프로니까."),
+ C("주장에게 중재를 맡긴다",{mo:2,xp:1},"주장이 멋지게 정리했다. 리더십이 자란다.")]);
+ev("p04",["pre"],null,"기자회견에서 한 기자가 묻는다. \"상대 감독이 한국 축구는 한물갔다고 했는데요?\"",[
+ C("\"경기장에서 답하겠습니다\" 미소로 응수",{press:4,mo:3,xp:2},"품격 있는 대응이 화제가 됐다."),
+ C("\"그 말, 후회하게 해드리죠\" 맞불",{press:2,mo:5,atk:1},"선수들이 불타올랐다. 언론은 '설전'이라 쓴다."),
+ C("\"노코멘트\" 자리를 뜬다",{press:-4},"기자들의 펜끝이 차가워졌다.")]);
+ev("p05",["pre"],null,"우리 전술 훈련 영상이 SNS에 유출됐다는 제보가 들어왔다.",[
+ C("전술을 일부 수정한다",{xp:3,sta:-1},"플랜B를 다듬었다. 위기를 기회로."),
+ C("역정보다. 그대로 간다",{mo:2},"\"보여주는 게 다가 아니지.\" 선수들이 씩 웃는다."),
+ C("보안팀을 강화하고 함구령",{press:-1,def:1},"훈련장이 요새가 됐다.")]);
+ev("p06",["pre"],null,"어린이 팬들이 훈련장 앞에서 몇 시간째 선수들을 기다리고 있다.",[
+ C("전원 사인회를 연다",{mo:5,press:3,sta:-1},"아이들의 환호! 선수들 얼굴에 미소가."),
+ C("대표 선수 3명만 내보낸다",{mo:2,press:1},"짧지만 따뜻한 만남이었다."),
+ C("집중을 위해 정중히 양해를 구한다",{sta:1,press:-2},"아쉽지만 훈련은 완벽했다.")]);
+ev("p07",["pre"],null,"18세 유망주 구슬찬이 훈련에서 미친 폼을 보인다. 코치진이 선발 기용을 건의한다.",[
+ C("과감히 다음 경기 선발 카드로 쓴다",{atk:2,mo:3,xp:2,flag:"rookie"},"파격 발탁! 언론이 들썩인다."),
+ C("조커로 아껴둔다",{xp:1,mo:1},"비밀 병기는 마지막에 쓰는 법."),
+ C("아직 이르다. 경험을 더 쌓게 한다",{def:1},"기본기 훈련을 추가했다.")]);
+ev("p08",["pre"],null,"의료진 보고: 주전 풀백의 햄스트링에 미세한 피로가 감지됐다.",[
+ C("출전 시간을 관리하며 기용한다",{xp:2,def:1},"세심한 관리. 큰 부상을 막았다."),
+ C("이번 경기는 완전히 쉬게 한다",{sta:3,atk:-1},"확실한 회복이 우선이다."),
+ C("본인이 뛰겠다면 믿고 맡긴다",{mo:2,injRisk:1},"투혼은 좋지만… 불안하다.")]);
+ev("p09",["pre"],null,"전력분석관이 상대 골키퍼의 약점을 찾아냈다. \"낮고 빠른 땅볼 슈팅에 약합니다.\"",[
+ C("슈팅 코스 훈련에 반영한다",{atk:3,xp:2},"공격수들이 코스를 몸에 새겼다."),
+ C("세트피스 약속된 플레이를 추가한다",{atk:2,xp:1},"코너킥 사인 '독수리'가 완성됐다."),
+ C("정보 과잉은 독. 우리 플레이에 집중",{mo:2,def:1},"기본에 충실하기로 했다.")]);
+ev("p10",["pre"],null,"기상청 예보: 경기 당일 폭우가 예상된다.",[
+ C("빗속 패스 훈련으로 적응한다",{xp:2,def:1,sta:-1},"미끄러운 공에 익숙해졌다."),
+ C("롱볼 위주 플랜B를 준비한다",{atk:1,xp:1},"비 오는 날의 축구를 준비했다."),
+ C("스터드(축구화 징) 점검을 지시한다",{def:1},"장비팀이 밤새 준비했다.")]);
+ev("p11",["pre"],null,"폭염 경보! 경기 당일 35도가 예상된다.",[
+ C("수분 보충 루틴과 쿨링 조끼를 준비",{sta:3,xp:1},"더위와 싸울 무기를 챙겼다."),
+ C("훈련 강도를 낮추고 회복에 집중",{sta:2,mo:1},"가볍게, 그러나 날카롭게."),
+ C("오히려 한낮 훈련으로 적응시킨다",{sta:-2,mo:-1,def:1},"혹독했다. 효과는… 글쎄.")]);
+ev("p12",["pre"],null,"주장이 면담을 요청했다. \"감독님, 후보 선수들 사기가 많이 떨어져 있습니다.\"",[
+ C("후보 선수들과 1:1 면담을 한다",{mo:6,xp:2},"\"모두가 23인의 전사다.\" 눈빛이 달라졌다."),
+ C("연습경기에서 후보 위주로 기용한다",{mo:3,sta:1},"기회를 받자 그들이 증명했다."),
+ C("주전 경쟁이 원래 그런 것",{mo:-4},"라커룸 한쪽이 조용해졌다.")]);
+ev("p13",["pre"],null,"상대팀 분석 영상 시청 시간. 선수들이 지루해한다.",[
+ C("퀴즈와 상금(저녁 메뉴 선택권)을 건다",{xp:2,mo:3},"분석 시간이 예능이 됐다. 머리에 쏙쏙."),
+ C("핵심 5분 클립으로 압축한다",{xp:1,mo:1},"짧고 굵게. 집중력이 살았다."),
+ C("전부 보게 한다. 디테일이 승부다",{xp:2,mo:-2},"하품이 나왔지만 숙제는 끝냈다.")]);
+ev("p14",["pre"],null,"스폰서 행사 참석 요청이 왔다. 훈련 일정과 겹친다.",[
+ C("짧게 참석하고 복귀한다",{press:2,sta:-1},"프로다운 균형감각이었다."),
+ C("훈련이 우선. 정중히 거절한다",{press:-2,sta:1,def:1},"훈련장의 공기가 진지하다."),
+ C("부상 선수들을 대신 보낸다",{press:1,mo:2},"모두가 윈윈! 재치 있는 해법.")]);
+
+/* ===== 경기 이벤트: 판정/규칙 ===== */
+ev("m01",["h1","h2"],"offside","한새벽이 뒷공간으로 질주해 골망을 흔들었다! 그러나 부심의 깃발이 올라간다 — 오프사이드.",[
+ C("침착하게 라인 타이밍을 다시 지시한다",{xp:3,atk:1},"\"한 발만 늦게 출발해!\" 다음 기회를 노린다."),
+ C("판정에 강하게 항의한다",{mo:1,press:-2,cardRisk:1},"벤치가 들썩였다. 제4심판이 경고의 눈빛을 보낸다."),
+ C("선수를 다독인다. \"좋은 움직임이었어!\"",{mo:3},"한새벽이 고개를 끄덕인다. 자신감은 지켰다.")]);
+ev("m02",["h1","h2"],"offside","우리 수비라인이 일제히 올라서며 상대 공격수를 오프사이드 함정에 빠뜨렸다!",[
+ C("\"좋아! 라인 그대로 유지!\"",{def:2,mo:2,xp:2},"오프사이드 트랩이 완벽히 작동한다."),
+ C("위험하다. 라인을 약간 내린다",{def:1},"안전 제일. 함정 대신 자물쇠를 택했다.")]);
+ev("m03",["h1","h2"],"var","우리 골이 터졌다! 그런데 주심이 귀에 손을 댄다… VAR 확인 중. 발끝 하나가 문제다.",[
+ C("선수들에게 \"집중 유지!\"를 외친다",{xp:3,def:1},"판독 결과… 온사이드! 골 인정!! 침착함이 빛났다.",{goal:1}),
+ C("초조하게 결과만 기다린다",{},"기나긴 2분… 다행히 골이 인정됐다!",{goal:1})]);
+ev("m04",["h1","h2"],"handball","상대 수비수가 점프하며 벌린 팔에 공이 맞았다! 주심이 페널티 스폿을 가리킨다 — PK!",[
+ C("에이스 이도현에게 맡긴다",{xp:2},"이도현, 침착하게… 구석을 찌른다! 골!!!",{goal:1}),
+ C("세트피스 키커 배시후에게 맡긴다",{xp:2},"배시후의 강력한 킥! 골키퍼 손끝을 스치고… 골!",{goal:1}),
+ C("자신 있다는 신예에게 기회를 준다",{mo:2,flag:"rookie"},"패기 넘치는 슛! 키퍼가 막았다… 아, 아깝다!",{})]);
+ev("m05",["h1","h2"],"handball","박스 바로 바깥, 상대의 핸드볼 반칙. 위협적인 위치의 직접 프리킥을 얻었다.",[
+ C("감아차기 직접 슈팅",{atk:1,xp:1},"배시후의 환상적인 궤적! 크로스바를 맞고 나온다. 아깝다!"),
+ C("훈련한 약속된 플레이 '독수리'",{atk:2,xp:2},"짧은 패스 후 낮은 크로스 — 혼전 속 위협적인 장면!"),
+ C("안전하게 점유를 유지한다",{def:1},"서두르지 않는다. 경기를 지배 중.")]);
+ev("m06",["h2","h1"],"handball","우리 박스 안! 수비수 팔에 공이 스쳤다. 상대가 PK를 외치며 달려든다. 주심은 VAR과 교신 중…",[
+ C("선수들을 진정시키고 판독을 기다린다",{xp:3,def:1},"판독 결과: 팔이 자연스러운 위치 — 노 페널티! 안도의 한숨."),
+ C("심판에게 달려가 항의한다",{press:-2,cardRisk:1},"판독 결과는 노 페널티. 하지만 벤치 경고를 받았다.")]);
+ev("m07",["h1","h2"],"yellow","유라온이 역습을 끊으려 상대를 잡아당겼다. 옐로카드. 전술적 파울이었다.",[
+ C("\"잘 끊었다\" 어깨를 두드린다",{def:2,mo:1,xp:1},"팀을 위한 희생. 단, 이제 조심해야 한다."),
+ C("다음 카드를 막기 위해 위치를 조정한다",{def:1,xp:2},"태클 부담을 동료가 나눠 맡는다."),
+ C("경고 누적이 걱정. 교체를 준비한다",{xp:1,sta:1},"벤치가 분주해졌다.")]);
+ev("m08",["h2"],"yellow","경고를 받은 유라온이 또 위험한 태클 직전까지 갔다! 퇴장 위기를 간신히 넘겼다.",[
+ C("즉시 교체한다",{def:1,xp:2,useSub:1},"안전이 우선. 10명 싸움은 피했다."),
+ C("포지션을 뒤로 내려 보호한다",{def:1,xp:1},"태클 상황 자체를 줄이는 선택."),
+ C("믿고 그대로 둔다",{mo:1,redRisk:1},"본인 눈빛은 살아있다. 하지만 도박이다…")]);
+ev("m09",["h1","h2"],"red","상대 수비수가 단독 찬스의 이도현을 뒤에서 걷어찼다! 주심이 주저 없이 레드카드!",[
+ C("수적 우위를 살려 총공격 전환",{atk:3,sta:-1,xp:2},"파상공세! 상대 골문이 흔들린다."),
+ C("서두르지 않고 점유율로 말려 죽인다",{atk:1,def:1,xp:2},"상대 10명의 체력이 뚝뚝 떨어진다."),
+ C("방심은 금물. 평소대로 간다",{def:1},"침착하게, 그러나 확실하게.")]);
+ev("m10",["h2"],"dogso","우리 수비수가 마지막 수비수 상황에서 상대를 넘어뜨렸다! 레드카드가 나올 수 있는 상황… VAR 확인 중.",[
+ C("최악을 대비해 수비 재편을 준비한다",{xp:3,def:1},"판독 결과: 볼을 향한 시도 인정 — 옐로카드로 감경! 준비성이 돋보였다."),
+ C("결과를 기다리며 기도한다",{mo:-1},"옐로카드로 감경됐다. 휴…")]);
+ev("m11",["h1","h2"],"pk","이도현이 박스 안에서 드리블 돌파 중 발을 걸렸다! 주심의 휘슬 — 페널티킥!",[
+ C("키커 본인에게 맡긴다",{xp:1},"넘어졌던 이도현이 직접… 골!!! 짜릿한 복수.",{goal:1}),
+ C("승부차기 훈련 1순위 키커를 부른다",{xp:2},"연습한 대로, 구석 낮게 — 골!",{goal:1})]);
+ev("m12",["h1","h2"],"pk","아! 우리 수비의 태클이 늦었다. 상대에게 페널티킥이 선언됐다.",[
+ C("골키퍼에게 분석 노트를 전달한다",{xp:3,def:1},"백한결이 방향을 읽었다 — 슈퍼세이브!!! 분석의 승리!"),
+ C("\"믿는다!\" 박수로 응원한다",{mo:2},"키커의 슛… 백한결이 몸을 날린다… 막았다!! 기적!"),
+ C("실점을 각오하고 다음을 준비한다",{xp:1},"상대 키커가 침착하게 성공시켰다. 실점…",{oppGoal:1})]);
+ev("m13",["h1","h2"],"freekick","골문 25m 정면에서 프리킥 기회! 수비벽이 9.15m 뒤로 물러선다.",[
+ C("배시후의 감아차기",{xp:1,atk:1},"벽을 넘어 감기는 슛 — 골키퍼 펀칭! 코너킥으로 이어진다."),
+ C("벽 밑으로 깔아 차는 트릭",{xp:2,atk:1},"벽이 점프하는 순간 밑으로! 키퍼가 가까스로 쳐냈다."),
+ C("짧게 연결해 점유 전개",{def:1},"서두르지 않는 선택. 리듬을 유지한다.")]);
+ev("m14",["h1","h2"],"freekick","위험 지역에서 상대 프리킥을 내줬다. 수비벽을 세워야 한다.",[
+ C("벽에 5명, 키 큰 선수 배치",{def:2,xp:1},"단단한 벽! 슈팅이 벽을 맞고 굴절됐다."),
+ C("벽 뒤에 눕는 선수를 둔다",{def:2,xp:2},"깔아차기 차단 성공! 디테일이 살린 장면."),
+ C("골키퍼 시야 확보를 우선한다",{def:1},"백한결이 정면 슈팅을 안정적으로 처리.")]);
+ev("m15",["h1","h2"],"corner","코너킥이 연속 세 개! 상대 수비가 흔들리고 있다.",[
+ C("훈련한 사인 플레이 '독수리' 가동",{atk:2,xp:2},"니어포스트 살짝 흘리기 — 표찬의 헤더! 골대를 강타!"),
+ C("키 큰 수비수까지 모두 올린다",{atk:2,def:-1},"공중전 총력! 골문 앞이 아수라장이다."),
+ C("역습 대비 두 명은 남겨둔다",{atk:1,def:1,xp:1},"공격과 보험, 균형 잡힌 선택.")]);
+ev("m16",["h1","h2"],"throwin","측면에서 볼이 나갔다. 그런데 상대 선수가 발을 들며 던져 파울 스로! 스로인이 우리에게 넘어왔다.",[
+ C("롱스로인 가능한 문주혁을 부른다",{atk:1,xp:2},"박스 안으로 대포알 스로인! 코너킥급 위협."),
+ C("빠른 스로인으로 역습 전개",{atk:1,xp:1},"상대가 정비하기 전에 찌른다!")]);
+ev("m17",["h1","h2"],"goalkick","골킥 상황. 상대가 전방 압박 대형을 갖춘다.",[
+ C("짧은 빌드업으로 압박을 벗겨낸다",{atk:2,xp:2,risk:1},"아슬아슬하게 한 명, 두 명 제치고 — 압박을 뚫자 대평원이 열렸다!"),
+ C("길게 차서 타깃맨 표찬을 노린다",{atk:1,def:1},"표찬이 헤더로 따냈다. 안전한 전개."),
+ C("측면으로 빠르게 전환한다",{atk:1},"윙백에게 연결, 무난한 전개.")]);
+ev("m18",["h1","h2"],"advantage","우리 선수가 반칙을 당했지만 공이 살아있다! 주심이 양팔을 뻗으며 \"플레이 온!\"",[
+ C("\"계속해! 어드밴티지!\"라고 외친다",{atk:2,xp:2},"노해담이 그대로 질주! 슈팅까지 이어진 명장면."),
+ C("멈칫… 휘슬을 기다렸다",{atk:-1},"기회가 날아갔다. 휘슬이 울릴 때까지 플레이해야 했는데!")]);
+ev("m19",["h1","h2"],"backpass","위험! 우리 수비의 백패스가 약했다. 골키퍼가 손으로 잡으면 간접 프리킥인 상황!",[
+ C("\"발로! 발로 처리해!\"",{xp:2,def:1},"백한결이 침착하게 발로 걷어냈다. 규칙을 아는 자의 여유."),
+ C("멀리 차내라고 소리친다",{def:1},"일단 위기는 벗어났다. 심장이 철렁.")]);
+ev("m20",["h2"],"sixsec","리드 중인 우리 골키퍼가 공을 너무 오래 들고 있다. 주심이 다가가 손목시계를 가리킨다!",[
+ C("빨리 처리하라고 지시한다",{xp:2},"제재 직전에 공을 처리했다. 시간 끌기는 다른 방법으로."),
+ C("모른 척한다",{press:-1,def:-1},"경고성 지적을 받았다. 상대 코너킥이 될 뻔!")]);
+ev("m21",["add"],"addedtime","제4심판의 전광판이 올라간다 — 추가시간 4분. 벤치가 술렁인다.",[
+ C("\"최소 4분이다! 끝까지 뛰어!\"",{sta:-1,atk:1,xp:2},"마지막 1초까지 전력 질주를 주문했다."),
+ C("볼 소유 위주로 안전하게",{def:2},"코너 깃발 쪽에서 영리하게 시간을 쓴다."),
+ C("마지막 교체 카드로 분위기 전환",{atk:1,mo:1,useSub:1},"신선한 다리가 들어갔다.")]);
+ev("m22",["h1","h2"],"goalline","슈팅이 골라인 위에서 걷어내졌다! 들어갔나?! 주심이 손목시계를 확인한다 — 골라인 판독!",[
+ C("결과를 기다린다",{xp:2},"시계에 신호가 왔다… 골!! 공은 몇 밀리미터 차이로 라인을 넘었다!",{goal:1})]);
+ev("m23",["h1","h2"],"dropball","공이 주심 몸에 맞고 소유가 바뀌었다! 경기가 중단되고 드롭볼이 선언된다.",[
+ C("규정대로 우리 공임을 확인한다",{xp:2,def:1},"마지막 터치가 우리였으니 우리 볼. 차분히 재개."),
+ C("선수들에게 4m 물러서라 지시",{xp:1},"규정 준수. 깔끔한 재개였다.")]);
+ev("m24",["h2"],null,"리드 중인 상대가 노골적으로 시간을 끈다. 잔디에 눕고, 천천히 걸어 나가고…",[
+ C("심판에게 추가시간 반영을 어필한다",{xp:2,atk:1},"주심이 고개를 끄덕이며 시계를 확인한다."),
+ C("선수들에게 침착함을 주문한다",{mo:2,def:1},"흥분은 상대가 원하는 것. 우리는 축구로 답한다."),
+ C("빠른 재개로 템포를 끌어올린다",{atk:2,sta:-1},"공이 나가기 무섭게 던지고 차고! 압박의 연속.")]);
+ev("m25",["h1","h2"],"var","주심이 화면 모양을 그리며 사이드라인 모니터로 달려간다 — 온필드 리뷰!",[
+ C("선수들 체온 유지를 지시한다",{xp:2,sta:1},"긴 판독 시간, 우리는 스트레칭으로 준비했다. 판정은 우리에게 유리하게!"),
+ C("코치진과 다음 플랜을 논의한다",{xp:2},"어느 쪽 결과든 대응할 준비 완료.")]);
+ev("m26",["h1","h2"],"offside","상대의 골! …같았지만 부심 깃발이 올라갔다. 패스 순간 발끝이 우리 수비보다 앞에 있었다.",[
+ C("\"라인 컨트롤 완벽했어!\" 수비를 칭찬",{def:2,mo:2,xp:2},"수비라인의 집중력이 만든 무형의 수비였다."),
+ C("아찔했다. 라인을 조금 내린다",{def:1},"같은 장면을 두 번 허용하지 않겠다.")]);
+
+/* ===== 경기 이벤트: 환경/관중 ===== */
+ev("m27",["h1","h2"],null,"갑자기 폭우가 쏟아진다! 그라운드에 물이 고이기 시작한다.",[
+ C("짧은 패스 대신 직선적인 공격 지시",{atk:2,xp:2},"미끄러운 잔디 위, 단순함이 무기가 됐다."),
+ C("수비라인에 안전한 처리 강조",{def:2,xp:1},"\"드리블 금지, 한 번에 걷어내!\""),
+ C("기존 플랜 유지",{},"비가 와도 축구는 축구다.")]);
+ev("m28",["h1","h2"],null,"폭염 속 경기. 주심이 음수(쿨링) 타임을 선언했다.",[
+ C("1분 미니 작전회의를 연다",{xp:3,atk:1,def:1},"물병과 전술보드가 동시에! 후반 운영 지시 완료."),
+ C("수분 보충과 휴식에만 집중",{sta:2},"체력 회복이 우선이다.")]);
+ev("m29",["h1"],null,"강풍이 분다. 골킥이 바람에 휘청이고 롱패스가 죽는다.",[
+ C("땅볼 위주 빌드업으로 전환",{xp:2,atk:1},"바람과 싸우지 않는다. 영리한 적응."),
+ C("바람을 등진 후반을 노려 전반은 버틴다",{def:2,xp:1},"전반은 인내, 후반은 폭풍 공격이다.")]);
+ev("m30",["h1"],null,"잔디 상태가 최악이다. 공이 불규칙하게 튄다.",[
+ C("원터치 패스를 줄이고 확실한 터치 강조",{def:1,xp:1},"실수가 눈에 띄게 줄었다."),
+ C("오히려 혼전을 유도한다",{atk:1,def:-1},"카오스 속에서 기회를 노린다.")]);
+ev("m31",["h1","h2"],null,"원정 관중의 야유가 경기장을 뒤덮는다. 어린 선수들이 위축된 듯하다.",[
+ C("\"저 소리는 우리가 무섭다는 뜻!\"",{mo:4,xp:1},"역발상 한마디에 선수들이 씩 웃는다."),
+ C("주장에게 분위기 단속을 맡긴다",{mo:2,def:1},"강도윤이 박수를 치며 팀을 깨운다."),
+ C("귀마개 대신 집중을 주문",{mo:1},"묵묵히 우리 플레이를 한다.")]);
+ev("m32",["h1","h2"],null,"붉은 물결! 우리 응원단의 함성이 폭발한다. 파도타기가 시작됐다.",[
+ C("기세를 몰아 공격 템포를 올린다",{atk:2,mo:2},"관중과 선수가 하나가 됐다!"),
+ C("들뜨지 않게 차분함을 주문",{def:1,xp:1},"열기는 가슴에, 머리는 차갑게.")]);
+ev("m33",["h2"],null,"경기장 조명 일부가 깜빡인다! 주심이 경기를 잠시 중단했다.",[
+ C("즉석 작전타임으로 활용한다",{xp:3,atk:1},"위기를 공짜 작전타임으로! 노련한 대처."),
+ C("선수들 근육이 식지 않게 조깅 지시",{sta:1,def:1},"재개 직후에도 몸이 가벼웠다.")]);
+
+/* ===== 경기 이벤트: 선수 상태 ===== */
+ev("m34",["h1","h2"],"sub","주전 풀백이 햄스트링을 잡고 쓰러졌다! 의료진이 들어간다. 더 뛰기 어려워 보인다.",[
+ C("즉시 교체한다",{useSub:1,xp:2,def:1},"무리는 금물. 교체 카드를 한 장 썼다."),
+ C("일단 몇 분 지켜본다",{def:-2,injRisk:1},"절뚝이며 뛴다… 위험한 도박이다.")]);
+ev("m35",["h1","h2"],"sub","코너킥 경합 중 우리 선수가 발목을 접질렸다. 테이핑 후 복귀를 시도한다.",[
+ C("의료진 판단을 따른다",{xp:2},"\"뛸 수 있습니다.\" 다행히 가벼운 염좌였다."),
+ C("선수 보호를 위해 교체",{useSub:1,def:1},"선수 생명이 우선이다. 박수가 쏟아진다.")]);
+ev("m36",["h1","h2"],"sub","공중볼 경합에서 머리끼리 부딪혔다! 뇌진탕 의심 — 의료진이 프로토콜을 진행한다.",[
+ C("규정대로 즉시 교체한다",{useSub:1,xp:3,mo:1},"머리 부상에 타협은 없다. 올바른 결정에 모두가 박수."),
+ C("본인 의사를 묻는다",{press:-3,mo:-2},"의료진이 단호히 막아섰다. 교체 외 선택지는 없었다.",{useSub:1})]);
+ev("m37",["h2"],null,"에이스 이도현의 발이 눈에 띄게 무거워졌다. 체력이 바닥난 듯하다.",[
+ C("교체로 휴식을 준다",{useSub:1,sta:2,xp:1},"박수 받으며 나가는 에이스. 다음을 위한 저축."),
+ C("위치를 낮춰 활동량을 줄여준다",{atk:-1,def:1},"포스트 플레이 위주로 전환."),
+ C("정신력으로 버티게 한다",{sta:-2,injRisk:1},"투혼… 그러나 몸은 거짓말을 않는다.")]);
+ev("m38",["h2"],"sub","벤치의 구슬찬이 몸을 푼다. 관중석에서 그의 이름이 연호된다. 교체 투입 타이밍인가?",[
+ C("과감하게 투입한다",{useSub:1,atk:2,mo:2,flag:"rookie"},"18세 신예가 그라운드를 밟는다! 첫 터치부터 관중석이 들썩!"),
+ C("5분만 더 보고 결정한다",{xp:1},"신중함도 능력이다."),
+ C("오늘은 아니다",{mo:-1},"유망주의 어깨가 처졌다.")]);
+ev("m39",["h1","h2"],null,"스트라이커가 어려운 각도에서 자꾸 욕심을 부린다. 동료들이 손을 들고 있는데도!",[
+ C("\"패스해!\" 단호하게 지시",{atk:1,xp:1,mo:-1},"다음 기회에서 어시스트가 나왔다. 팀이 먼저다."),
+ C("자신감을 존중한다. 골잡이는 그래야지",{mo:1,atk:1},"세 번째 슈팅이 골대를 맞혔다! 종이 한 장 차이."),
+ C("하프타임에 따로 이야기하기로 한다",{xp:1},"메모장에 적어둔다. '슈팅 셀렉션.'")]);
+ev("m40",["h1","h2"],null,"한새벽이 오늘 미쳤다! 수비수 둘을 연달아 제치며 측면을 폭격 중이다.",[
+ C("공격 방향을 그쪽으로 몰아준다",{atk:3,xp:1},"모든 공이 왼쪽으로! 상대 풀백이 SOS를 친다."),
+ C("상대가 협력수비로 나오니 미끼로 쓴다",{atk:2,xp:2},"한새벽에게 둘이 붙자 반대편이 텅 비었다!")]);
+ev("m41",["h1","h2"],null,"실점 위기 직후, 주장 강도윤이 동료들을 불러 모아 원을 만든다.",[
+ C("주장에게 맡기고 지켜본다",{mo:4,def:1,xp:1},"그라운드 위의 감독. 팀이 다시 단단해졌다."),
+ C("벤치에서 구체적 지시를 더한다",{def:2,xp:1},"주장의 호소 + 감독의 디테일.")]);
+ev("m42",["h2"],null,"교체 명단에서 빠진 베테랑이 벤치에서 불만스러운 표정을 짓는 게 카메라에 잡혔다.",[
+ C("경기 후 따로 대화하기로 메모한다",{xp:2},"지금은 경기에 집중. 관리는 그 후에."),
+ C("어깨를 두드리며 한마디 건넨다",{mo:3},"\"다음 경기는 너의 무대다.\" 표정이 풀렸다."),
+ C("무시한다. 팀이 우선이다",{mo:-3,press:-1},"카메라는 모든 걸 기록하고 있었다…")]);
+ev("m43",["h1","h2"],"yellow","골 세리머니로 유니폼을 벗어 던졌다! 기쁨도 잠시, 규정대로 옐로카드가 나온다.",[
+ C("\"세리머니도 규칙 안에서!\" 주의를 준다",{xp:2},"기쁨은 이해하지만, 카드는 카드다."),
+ C("그 열정을 칭찬한다",{mo:2},"라커룸에 걸 사진 한 장은 건졌다.")]);
+ev("m44",["h1","h2"],null,"상대 선수가 우리 영건에게 계속 트래시토크를 건다. 신경전이 과열되고 있다.",[
+ C("선수를 바꿔 매치업을 피한다",{def:1,xp:1},"불씨를 치웠다. 영리한 회피."),
+ C("\"실력으로 답해\"라고 외친다",{mo:2,atk:1},"다음 드리블 돌파로 통쾌하게 응수!"),
+ C("주심에게 보호를 요청한다",{def:1},"주심이 양 선수에게 구두 경고를 줬다.")]);
+
+/* ===== 경기 이벤트: 전술 ===== */
+ev("m45",["h1","h2"],null,"상대의 역습이 매섭다. 우리 풀백 뒷공간이 계속 노출된다.",[
+ C("풀백 오버래핑을 자제시킨다",{def:2,atk:-1,xp:1},"뒷문을 잠갔다. 안정감이 생겼다."),
+ C("수비형 미드필더가 커버하게 한다",{def:1,xp:2},"위치 조정으로 균형을 잡았다."),
+ C("공격이 최선의 수비. 그대로 간다",{atk:1,def:-2},"화끈하지만 아슬아슬한 줄타기.")]);
+ev("m46",["h1","h2"],null,"상대가 두 줄 수비로 골문 앞에 버스를 세웠다. 공간이 보이지 않는다.",[
+ C("중거리 슈팅으로 수비를 끌어낸다",{atk:2,xp:2},"차민건의 대포알 중거리! 수비 블록이 조금씩 나오기 시작한다."),
+ C("측면 크로스 폭격으로 전환",{atk:2},"좌우로 흔들며 크로스 융단폭격!"),
+ C("인내심 있게 패스로 틈을 찾는다",{atk:1,def:1},"상대의 집중력이 떨어질 때까지, 똑딱똑딱.")]);
+ev("m47",["h1"],null,"상대의 전방 압박이 거세다. 빌드업이 자꾸 끊긴다.",[
+ C("롱볼로 압박 너머를 공략",{atk:1,def:1,xp:1},"압박을 건너뛰자 상대 라인이 내려가기 시작했다."),
+ C("골키퍼를 빌드업에 참여시킨다",{atk:2,risk:1,xp:2},"수적 우위로 압박을 벗겨냈다! 짜릿한 탈압박."),
+ C("미드필더 한 명을 내려 받쳐준다",{def:1,xp:1},"안정적인 출구가 생겼다.")]);
+ev("m48",["h1","h2"],null,"분석실에서 무전: \"상대 오른쪽 풀백 뒷공간이 비어 있습니다!\"",[
+ C("한새벽을 그쪽으로 이동시킨다",{atk:3,xp:2},"약점 직격! 연속 두 번의 결정적 기회."),
+ C("긴 대각 패스로 한 번에 노린다",{atk:2},"차민건의 60m 대각 패스가 예술처럼 꽂힌다."),
+ C("후반을 위해 아껴둔다",{xp:1},"비장의 카드는 마지막에.")]);
+ev("m49",["h1","h2"],"corner","상대가 코너킥 수비에서 니어포스트를 비워두는 게 보인다.",[
+ C("니어포스트 사인 플레이 지시",{atk:2,xp:2},"약속된 움직임 — 표찬의 헤더가 니어를 강타!"),
+ C("일단 평소 루틴대로",{atk:1},"무난한 코너킥. 정보를 아껴둔다.")]);
+ev("m50",["h1","h2"],null,"점유율 67%. 그런데 슈팅은 단 두 개. 공만 돌리고 있다.",[
+ C("\"전진 패스! 과감하게!\"",{atk:2,xp:2},"종패스가 들어가기 시작하자 찬스가 만들어진다."),
+ C("템포를 더 올려 상대를 지치게 한다",{atk:1,sta:-1},"패스 속도가 빨라지자 상대가 헐떡인다."),
+ C("점유 자체가 수비다. 유지한다",{def:2},"상대는 공을 구경만 하고 있다.")]);
+ev("m51",["h1","h2"],null,"우리가 리드 중. 수비라인을 올려 더 압박할까, 내려서 지킬까?",[
+ C("라인을 올려 추가골 사냥",{atk:2,def:-1},"기세를 유지한다. 2-0이 가장 안전한 스코어니까."),
+ C("라인을 내리고 역습 모드",{def:2,atk:-1,xp:1},"단단히 잠그고 한 방을 노린다."),
+ C("현재 밸런스 유지",{def:1},"잘 되고 있는 걸 바꾸지 않는다.")]);
+ev("m52",["h2"],null,"지고 있다. 시간이 없다. 모험이 필요한 순간.",[
+ C("수비수를 빼고 공격수 투입",{atk:3,def:-2,useSub:1},"올인! 파워풀한 공격 일변도."),
+ C("센터백을 최전방으로 올린다",{atk:2,def:-1,xp:1},"장신 수비수가 타깃맨으로! 뻥축구의 낭만."),
+ C("침착하게 우리 패턴을 유지",{atk:1,xp:1},"패닉은 금물. 정확한 한 방을 노린다.")]);
+ev("m53",["h1","h2"],null,"상대 코너킥을 걷어냈다! 우리 진영에서 3대2 역습 찬스!",[
+ C("\"달려!!!\" 전속력 역습",{atk:3,xp:2},"질풍 같은 역습! 슈팅이 골키퍼 정면으로… 아 아깝다!"),
+ C("숫자가 모일 때까지 템포 조절",{atk:1,def:1},"안전하게, 그러나 기회는 살려서.")]);
+ev("m54",["h2"],"sub","교체 카드를 쓸 시간. 교체 기회는 3회뿐 — 한 번에 두 명을 바꿀까?",[
+ C("더블 교체로 흐름을 바꾼다",{atk:2,mo:1,useSub:1,xp:2},"두 명의 신선한 다리! 경기 템포가 확 바뀌었다."),
+ C("한 명만 바꾸고 기회를 아낀다",{atk:1,useSub:1},"교체 기회 관리도 전술이다."),
+ C("아직이다. 조금 더 본다",{xp:1},"참을성 있게 최적 타이밍을 잰다.")]);
+ev("m55",["h1","h2"],null,"경기가 너무 오픈됐다. 양 팀이 펀치를 주고받는 난타전!",[
+ C("미드필더를 내려 중원을 잠근다",{def:2,xp:1},"난타전 종료. 경기를 우리 페이스로."),
+ C("난타전이라면 우리가 유리하다!",{atk:2,def:-1},"화력 대결 선언! 관중은 신났다.")]);
+ev("m56",["h1","h2"],null,"상대 에이스가 공을 잡을 때마다 위협적이다. 특단의 대책이 필요하다.",[
+ C("유라온에게 전담 마크를 맡긴다",{def:2,xp:2},"그림자 수비! 상대 에이스가 사라졌다."),
+ C("그 선수에게 공이 가는 길목을 차단",{def:2,xp:2},"패스 루트 차단. 공급 자체를 끊었다."),
+ C("우리도 공격으로 맞불",{atk:2,def:-1},"창과 창의 대결!")]);
+ev("m57",["h1","h2"],null,"우리 풀백 문주혁의 오버래핑이 살아있다. 더 올릴까?",[
+ C("적극적으로 공격 가담시킨다",{atk:2,def:-1},"측면에 2대1 숫자 우위가 만들어진다!"),
+ C("역습 한 방이 무섭다. 절제시킨다",{def:1},"균형이 먼저다.")]);
+ev("m58",["h1"],null,"중원 싸움이 치열하다. 세컨드볼이 자꾸 상대에게 간다.",[
+ C("\"세컨드볼에 한 발 먼저!\"",{def:1,atk:1,xp:2},"공이 떨어지는 자리를 선점하기 시작했다."),
+ C("미드필더 간격을 좁힌다",{def:2,xp:1},"콤팩트한 블록. 중원이 단단해졌다.")]);
+ev("m59",["h1","h2"],null,"아찔! 우리 골키퍼의 빌드업 패스를 상대가 노리고 있다.",[
+ C("위험할 땐 길게 차라고 지시",{def:2,xp:1},"안전 제일. 멋보다 승리다."),
+ C("빌드업을 유지하되 각도를 넓힌다",{atk:1,risk:1,xp:2},"수비수들이 더 넓게 벌리자 패스 길이 열렸다.")]);
+ev("m60",["h2"],null,"크로스가 번번이 차단된다. 타깃맨 표찬을 활용할 때인가?",[
+ C("표찬 투입, 공중 폭격 전환",{atk:2,useSub:1},"높이의 축구! 상대 센터백이 진땀을 뺀다."),
+ C("낮고 빠른 컷백으로 변화",{atk:2,xp:2},"분석 노트대로! 땅볼 컷백이 먹힌다.")]);
+
+/* ===== 경기 이벤트: 돌발 상황 ===== */
+ev("m61",["h2"],null,"관중 한 명이 그라운드에 난입했다! 경기가 중단된다.",[
+ C("선수들을 모아 집중을 유지시킨다",{xp:2,def:1},"소동 속에서도 우리 팀만은 차분했다."),
+ C("잠시 휴식 시간으로 쓴다",{sta:1},"뜻밖의 꿀휴식.")]);
+ev("m62",["h1","h2"],null,"공이 두 개?! 관중석에서 들어온 공이 그라운드에 굴러들어와 플레이가 끊겼다.",[
+ C("드롭볼 재개 규정을 확인한다",{xp:2},"침착한 확인. 우리 소유로 재개됐다."),
+ C("웃어넘기며 분위기를 푼다",{mo:1},"선수들이 피식. 긴장이 풀렸다.")]);
+ev("m63",["h1","h2"],"dropball","주심이 공에 맞아 미끄러졌다! 공교롭게 소유가 상대에게 넘어가자 휘슬 — 드롭볼이다.",[
+ C("규정상 우리 공임을 정중히 확인",{xp:2},"마지막 터치 팀에게 반환. 규칙을 아는 벤치."),
+ C("그냥 흘러가는 대로 둔다",{},"드롭볼로 재개됐다.")]);
+ev("m64",["h1"],null,"부심의 깃발이 오작동인지 애매하게 올라갔다 내려간다. 선수들이 혼란스러워한다.",[
+ C("\"휘슬 전까지 플레이!\" 원칙을 상기",{xp:2,def:1},"혼란 속에서도 원칙이 팀을 지켰다."),
+ C("주심에게 상황 정리를 요청",{def:1},"잠시 후 명확한 설명이 나왔다.")]);
+ev("m65",["h1"],null,"하프타임 이벤트 마스코트가 아직 경기장 옆에 있다가 공에 맞았다! 관중 폭소.",[
+ C("같이 웃으며 분위기를 즐긴다",{mo:2},"웃음은 긴장을 푸는 명약."),
+ C("선수들 집중 유지에 신경 쓴다",{def:1},"프로는 어떤 상황에도 흔들리지 않는다.")]);
+ev("m66",["h2"],null,"상대 감독이 판정에 격분해 물병을 걷어찼다! 퇴장 명령을 받고 관중석으로 올라간다.",[
+ C("동요 없이 우리 경기에 집중",{xp:2,def:1},"상대 벤치가 혼란한 사이 우리는 침착했다."),
+ C("이 틈에 공세 수위를 높인다",{atk:2},"지휘관 잃은 상대를 몰아붙인다!")]);
+ev("m67",["h2"],"sub","제4심판이 교체 보드를 들었다. 그런데 등번호가 잘못 표시됐다! 교체가 잠시 지연된다.",[
+ C("정정을 요청하고 절차를 확인",{xp:2},"정확한 절차로 교체 완료. 디테일!"),
+ C("그 사이 선수에게 지시를 추가 전달",{atk:1,xp:1},"지연 시간도 작전 시간이다.")]);
+ev("m68",["h1","h2"],null,"상대 선수 부상으로 의료 카트가 들어온다. 경기가 길게 중단된다.",[
+ C("우리 선수들 재정비 시간으로 활용",{xp:2,sta:1},"수분 보충 + 미니 미팅. 알찬 중단 시간."),
+ C("상대 선수의 쾌유를 기원한다",{press:2,mo:1},"스포츠맨십에 박수가 나온다.")]);
+ev("m69",["h2"],null,"지고 있는데 볼보이가 공을 천천히 준다…?! 우리 선수가 항의한다.",[
+ C("멀티볼 시스템을 심판에게 확인 요청",{xp:2,atk:1},"여분의 공으로 빠른 재개! 침착한 대응."),
+ C("선수에게 흥분하지 말라고 손짓",{mo:1,def:1},"카드 관리가 우선이다.")]);
+ev("m70",["h1"],null,"주장 완장이 풀려 떨어졌다! 강도윤이 당황한 사이 플레이는 계속된다.",[
+ C("\"플레이 먼저!\" 침착하게 외친다",{xp:1,def:1},"데드볼 때 완장을 고쳐 맸다. 별일 아니었다."),
+ C("심판에게 중단을 요청한다",{},"다음 아웃오브플레이에서 정리됐다.")]);
+ev("m71",["et"],"extratime","90분 무승부. 연장전 돌입! 선수들이 그라운드에 주저앉아 다리를 주무른다.",[
+ C("\"15분 두 번! 머리로 뛰어라!\"",{mo:3,xp:2},"전술적인 연장전을 주문했다. 골든골은 없다, 30분을 설계하라."),
+ C("마사지와 수분 보충에 집중",{sta:3},"몸을 최대한 회복시킨다."),
+ C("연장 추가 교체 카드를 점검한다",{xp:2,atk:1},"연장전엔 교체 1명이 추가 허용된다. 카드를 계산했다.")]);
+ev("m72",["et"],"sub","연장 추가 교체 기회! 누구를 넣을까?",[
+ C("스피드 살아있는 윙어",{atk:2,useSub:1},"지친 수비 사이로 폭주 기관차!"),
+ C("수비 자물쇠 요원",{def:2,useSub:1},"승부차기까지 보는 안전 운행."),
+ C("승부차기 키커 요원",{xp:2,useSub:1,flag:"pkready"},"승부차기를 내다본 한 수. 키커가 준비됐다.")]);
+ev("m73",["et"],null,"연장 후반, 양 팀 모두 다리가 풀렸다. 실수가 속출한다.",[
+ C("세트피스에 모든 것을 건다",{atk:2,xp:1},"지친 수비에게 세트피스는 악몽이다."),
+ C("실수 유발 압박을 지시한다",{atk:1,sta:-1},"상대 수비의 패스미스를 노린다!"),
+ C("승부차기 대비 키커 순서를 짠다",{xp:2,flag:"pkready"},"벤치에서 조용히 순서표를 작성했다.")]);
+
+/* ===== 추가시간 전용 ===== */
+ev("m74",["add"],"addedtime","추가시간 표시 3분. 그런데 상대 부상 처치로 시간이 더 흘렀다.",[
+ C("\"표시는 최소 시간!\" 끝까지 집중 지시",{xp:2,def:1},"추가시간의 추가시간까지 우리는 깨어 있었다."),
+ C("선수들에게 시간을 계산해 알려준다",{xp:1,atk:1},"남은 시간을 알자 플레이가 정확해졌다.")]);
+ev("m75",["add"],null,"추가시간 마지막 공격! 코너킥 기회다. 골키퍼까지 올라갈 것인가?",[
+ C("골키퍼까지 총공격!",{atk:3,def:-3,xp:1},"백한결까지 박스 안으로! 모 아니면 도!"),
+ C("정상 코너킥으로 마무리",{atk:1},"무리하지 않는다. 이성적인 마무리.")]);
+EV.push({id:"m76",ph:["h1","h2"],rule:"yellow",txt:"상대가 우리 프리킥을 막으려 공을 발로 쳐냈다 — 재개 지연으로 상대에게 옐로카드!",ch:[
+ C("빠른 재개로 허를 찌른다",{atk:2,xp:1},"상대가 정비하기 전에 기습 프리킥!"),
+ C("정비된 세트피스를 선택",{atk:1},"약속된 플레이를 가동한다.")]});
+EV.push({id:"m77",ph:["h1","h2"],rule:"offside",txt:"미묘한 장면! 우리 공격수가 오프사이드 위치에 있었지만 공에 관여하지 않아 플레이가 계속됐다.",ch:[
+ C("\"위치만으론 반칙이 아니다!\" 그대로 진행",{atk:1,xp:2},"규칙을 정확히 아는 팀의 침착한 공격."),
+ C("혼란을 피해 일단 후방으로 돌린다",{def:1},"안전하게 다시 만들어 간다.")]});
+EV.push({id:"m78",ph:["h2"],rule:"pk",txt:"PK 재킥 논란! 골키퍼가 너무 일찍 라인을 떠났는지 VAR이 확인 중이다.",ch:[
+ C("규정(킥 순간 한 발 라인 위)을 떠올리며 대기",{xp:3},"판독 결과 키퍼 위반 — 우리에게 재킥! 이번엔 성공!",{goal:1}),
+ C("결과를 기다린다",{xp:1},"재킥 판정! 두 번째 기회를 살렸다.",{goal:1})]});
+EV.push({id:"m79",ph:["h1"],rule:"throwin",txt:"우리 스로인. 던질 곳이 마땅치 않자 백한결 골키퍼에게 던지려 한다!",ch:[
+ C("\"키퍼가 손으로 잡으면 안 돼!\" 급히 외친다",{xp:2,def:1},"스로인 백패스도 손 처리 금지! 발로 안전하게 처리했다."),
+ C("다른 방향을 찾으라고 지시",{def:1},"침착하게 풀어 나갔다.")]});
+EV.push({id:"m80",ph:["h1","h2"],rule:"advantage",txt:"상대 반칙! 그런데 공이 우리 공격수 앞에 뚝 떨어졌다. 주심이 어드밴티지 제스처!",ch:[
+ C("\"슛!!!\"",{atk:2,xp:1},"논스톱 슈팅! 골키퍼 슈퍼세이브에 막혔지만 박수가 쏟아진다."),
+ C("더 좋은 각도의 동료에게 연결 지시",{atk:2,xp:2},"이타적인 패스가 더 큰 찬스를 만들었다!")]});
+</script>
+<script>
+"use strict";
+/* =========================================================
+   게임 상태 & 엔진
+========================================================= */
+let G=null;
+function newGame(){
+ G={ name:"감독",
+  set:{sound:true,comm:"b"},
+  coach:{xp:0,pts:0,stats:{tac:1,man:1,med:1,fit:1,psy:1}},
+  team:{sel:[],cap:null,tactic:null,train:null,morale:62,stamina:82},
+  fix:0, grp:{pts:0,res:[]},
+  flags:{unbeaten:true,pkWins:0,varCount:0,reds:0,lateGoals:0,rookie:false,goals:0,conceded:0,wins:0,cleanSheets:0,press:50,styleAtk:0,styleDef:0,fairplay:true,etPlayed:0,comebacks:0},
+  notebook:[],cards:[],articles:[],trophies:[],achv:[],usedPre:[],
+  screen:"title", match:null
+ };
+}
+function save(){try{store.set(SAVE_KEY,JSON.stringify(G));}catch(e){}}
+function hasSave(){return !!store.get(SAVE_KEY);}
+function loadSave(){try{G=JSON.parse(store.get(SAVE_KEY));return true;}catch(e){return false;}}
+
+const STATNM={tac:"전술 감각",man:"선수 관리",med:"언론 대응",fit:"체력 관리",psy:"심리전"};
+const COMMNM={b:["🧢","박초보 해설위원","처음 보는 사람도 이해되는 친절 해설"],p:["🎙️","김전문 해설위원","규정집을 통째로 외운 정밀 해설"],c:["🏆","레전드 차감독","우승 경험에서 나오는 현장 해설"]};
+
+function unlockRule(key){
+ if(!RULES[key]||G.notebook.includes(key))return false;
+ G.notebook.push(key);G.cards.push(key);
+ if(G.notebook.length===5)addAchv("규칙 입문자","규칙 도감 5개 등록");
+ if(G.notebook.length===12)addAchv("걸어다니는 규정집","규칙 도감 12개 등록");
+ if(G.notebook.length>=Object.keys(RULES).length)addAchv("규칙 마스터","규칙 도감 완성!");
+ return true;
+}
+function addAchv(nm,d){if(G.achv.find(a=>a.nm===nm))return;G.achv.push({nm,d});toast("🏅 업적 달성: "+nm);snd.ding();}
+function addTrophy(nm,d,ic){if(G.trophies.find(t=>t.nm===nm))return;G.trophies.push({nm,d,ic:ic||"🏆"});toast("🏆 트로피 획득: "+nm);snd.ding();}
+function addArticle(h,d){G.articles.push({h,d});}
+
+function teamRating(){
+ const sel=SQUAD.filter(p=>G.team.sel.includes(p.id));
+ const avg=sel.length?sel.reduce((s,p)=>s+p.ovr,0)/sel.length:78;
+ return avg + G.coach.stats.tac*0.7 + (G.team.morale-60)*0.06 + (G.team.stamina-70)*0.05;
+}
+
+/* ---------- 화면 렌더 공통 ---------- */
+function render(html,cls){
+ APP().innerHTML=`<div class="topbar">
+   <div class="brand">감독의 선택<small>COACH'S CHOICE</small></div>
+   <div class="statchips">${G&&G.screen!=="title"&&G.screen!=="setup"?`
+     <span class="chip">😊 사기 <b>${G.team.morale}</b></span>
+     <span class="chip">⚡ 체력 <b>${G.team.stamina}</b></span>
+     <span class="chip">📰 언론 <b>${G.flags.press}</b></span>
+     <span class="chip">✨ XP <b>${G.coach.xp}</b></span>`:""}
+     <button class="iconbtn" onclick="openSettings()" aria-label="설정">⚙️</button>
+   </div></div>
+   <div class="fade ${cls||""}">${html}</div>`;
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function choicesHtml(list,fn){
+ return `<div class="choices">`+list.map((c,i)=>`
+  <button class="choice" onclick="${fn}(${i})"><span class="key">${i+1}</span><span>${esc(c.t)}${c.d?`<small>${esc(c.d)}</small>`:""}</span></button>`).join("")+`</div>`;
+}
+document.addEventListener("keydown",e=>{
+ if(e.key>="1"&&e.key<="4"){const b=document.querySelectorAll(".choice")[+e.key-1];if(b)b.click();}
+});
+
+/* ---------- 설정 모달 ---------- */
+function openSettings(){
+ const m=document.createElement("div");m.className="modal-back";m.id="setmodal";
+ m.innerHTML=`<div class="glass panel modal">
+  <div class="eyebrow">Settings</div><h2 class="scene">설정</h2>
+  <p class="lead" style="margin-bottom:8px">해설 스타일</p>
+  <div class="choices">${Object.entries(COMMNM).map(([k,v])=>`
+    <button class="choice" style="${G.set.comm===k?'border-color:var(--gold);background:rgba(201,162,39,.15)':''}" onclick="G.set.comm='${k}';save();openSettings2()">
+    <span class="key">${v[0]}</span><span>${v[1]}<small>${v[2]}</small></span></button>`).join("")}
+  </div>
+  <div class="goldline"></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+   <button class="btn ghost" onclick="G.set.sound=!G.set.sound;save();openSettings2()">${G.set.sound?"🔊 사운드 켜짐":"🔇 사운드 꺼짐"}</button>
+   <button class="btn ghost" onclick="if(confirm('처음부터 다시 시작할까요? 저장이 삭제됩니다.')){store.del(SAVE_KEY);newGame();closeSettings();scTitle();}">🗑️ 새 게임</button>
+   <button class="btn" onclick="closeSettings()">닫기</button>
+  </div>
+  <p class="hint">저장은 자동으로 됩니다. 브라우저에서 파일을 직접 열면 이어하기가 유지돼요.</p>
+ </div>`;
+ m.addEventListener("click",e=>{if(e.target===m)closeSettings();});
+ document.body.appendChild(m);
+}
+function openSettings2(){closeSettings();openSettings();}
+function closeSettings(){const m=$("#setmodal");if(m)m.remove();}
+
+/* =========================================================
+   화면: 타이틀 / 설정 / 스쿼드 / 주장 / 훈련 / 전술
+========================================================= */
+function scTitle(){
+ G.screen="title";
+ render(`<div class="glass panel" style="text-align:center;padding:48px 22px">
+  <div class="eyebrow">Interactive Manager Story</div>
+  <h1 class="display">감독의 선택</h1>
+  <p class="lead" style="max-width:560px;margin:14px auto 0">가상의 국제 대회 <b style="color:var(--gold2)">글로벌 챔피언십</b>.<br>
+  당신은 대한민국 대표팀의 새 감독입니다.<br>모든 선택이 팀의 운명을, 그리고 당신의 전설을 만듭니다.</p>
+  <div class="goldline" style="margin:24px auto;max-width:200px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+   <button class="btn" onclick="snd.click();scSetup()">🆕 새로운 도전</button>
+   ${hasSave()?`<button class="btn ghost" onclick="snd.click();if(loadSave()){toast('이어하기 불러오기 완료');resume();}">▶️ 이어하기</button>`:""}
+  </div>
+  <p class="hint">⚽ 이 게임의 대회·선수·팀은 모두 가상입니다 · 키보드 1~4로 선택 가능</p>
+ </div>`);
+}
+function resume(){
+ const s=G.screen;
+ if(G.match){startPhase();return;}
+ if(s==="desk"||s==="report")scDesk();
+ else if(["squad","captain","training","tactic"].includes(s))scSquad();
+ else scTitle();
+}
+function scSetup(){
+ newGame();G.screen="setup";
+ render(`<div class="glass panel">
+  <div class="eyebrow">Episode 0 · 부임</div>
+  <h2 class="scene">대한축구협회, 새 감독을 발표하다</h2>
+  <p class="lead">기자들의 플래시가 터집니다. 협회장이 당신에게 마이크를 넘깁니다.<br>"글로벌 챔피언십 우승. 그것이 우리가 당신을 모신 이유입니다."</p>
+  <div class="goldline"></div>
+  <p class="lead" style="margin-bottom:6px">감독님의 성함은?</p>
+  <input id="nmInput" maxlength="10" placeholder="예: 김감독" style="width:100%;max-width:300px;padding:12px 14px;border-radius:12px;border:1px solid var(--glassb);background:rgba(255,255,255,.07);color:#fff;font-size:15px;font-family:var(--sans)">
+  <p class="lead" style="margin:18px 0 6px">중계석의 파트너, 해설위원을 선택하세요. <small style="color:#7E91B4">(언제든 설정에서 변경 가능)</small></p>
+  ${choicesHtml(Object.entries(COMMNM).map(([k,v])=>({t:v[0]+" "+v[1],d:v[2],k})),"pickComm")}
+ </div>`);
+}
+function pickComm(i){
+ G.set.comm=Object.keys(COMMNM)[i];
+ const nm=$("#nmInput").value.trim();G.name=nm||"김감독";
+ snd.click();save();scSquad();
+}
+/* ---------- 스쿼드 선발 ---------- */
+const NEED={GK:1,DF:4,MF:4,FW:2};
+let selTmp=[];
+function scSquad(){
+ G.screen="squad";selTmp=[...G.team.sel];
+ const cnt=pos=>selTmp.filter(id=>SQUAD.find(p=>p.id===id).pos===pos).length;
+ render(`<div class="glass panel">
+  <div class="eyebrow">대회 준비 1/4 · 대표팀 선발</div>
+  <h2 class="scene">베스트 11의 뼈대를 세워라</h2>
+  <p class="lead">포지션별로 핵심 선발 자원을 선택하세요. <b style="color:var(--gold2)">GK ${cnt("GK")}/1 · DF ${cnt("DF")}/4 · MF ${cnt("MF")}/4 · FW ${cnt("FW")}/2</b></p>
+  <div class="squadgrid">${SQUAD.map(p=>`
+   <button class="pcard ${selTmp.includes(p.id)?"sel":""}" onclick="togglePick('${p.id}')">
+    <span class="ovr">${p.ovr}</span><div class="pos">${p.pos}</div><div class="nm">${p.nm}</div><div class="tr">${p.tr}</div>
+   </button>`).join("")}</div>
+  <div style="margin-top:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+   <button class="btn" id="sqDone" onclick="confirmSquad()">명단 확정 →</button>
+   <span class="hint" style="margin:0">선택하지 않은 선수들도 교체 자원으로 함께합니다.</span>
+  </div></div>`);
+ updateSqBtn();
+}
+function togglePick(id){
+ const p=SQUAD.find(x=>x.id===id);
+ if(selTmp.includes(id)){selTmp=selTmp.filter(x=>x!==id);}
+ else{
+  const c=selTmp.filter(x=>SQUAD.find(q=>q.id===x).pos===p.pos).length;
+  if(c>=NEED[p.pos]){toast(p.pos+" 포지션은 "+NEED[p.pos]+"명까지!");return;}
+  selTmp.push(id);
+ }
+ snd.click();G.team.sel=selTmp;scSquad();
+}
+function updateSqBtn(){
+ const ok=Object.entries(NEED).every(([pos,n])=>selTmp.filter(id=>SQUAD.find(p=>p.id===id).pos===pos).length===n);
+ $("#sqDone").disabled=!ok;
+}
+function confirmSquad(){G.team.sel=selTmp;save();snd.click();scCaptain();}
+
+function scCaptain(){
+ G.screen="captain";
+ const cands=CAPTAINS.map(id=>SQUAD.find(p=>p.id===id));
+ render(`<div class="glass panel">
+  <div class="eyebrow">대회 준비 2/4 · 주장 선임</div>
+  <h2 class="scene">완장을 찰 사나이</h2>
+  <p class="lead">주장은 그라운드 위의 또 다른 감독입니다. 누구에게 완장을 맡기시겠습니까?</p>
+  ${choicesHtml(cands.map(p=>({t:`${p.nm} (${p.pos}·${p.ovr})`,d:p.tr})),"pickCap")}
+ </div>`);
+}
+function pickCap(i){
+ G.team.cap=CAPTAINS[i];G.team.morale+=4;snd.click();
+ addAchv("첫 임명장","주장을 선임했다");save();scTraining();
+}
+function scTraining(){
+ G.screen="training";
+ render(`<div class="glass panel">
+  <div class="eyebrow">대회 준비 3/4 · 훈련 방향</div>
+  <h2 class="scene">소집 훈련, 무엇에 집중할까</h2>
+  <p class="lead">대회 기간 전체에 영향을 주는 팀의 '색깔'을 정합니다.</p>
+  ${choicesHtml(TRAININGS.map(t=>({t:t.nm,d:t.d})),"pickTrain")}
+ </div>`);
+}
+function pickTrain(i){G.team.train=TRAININGS[i].id;snd.click();save();scTactic(true);}
+function scTactic(first){
+ G.screen="tactic";
+ render(`<div class="glass panel">
+  <div class="eyebrow">${first?"대회 준비 4/4 · ":""}전술 보드</div>
+  <h2 class="scene">팀의 기본 전술</h2>
+  <p class="lead">초록 보드 위에 자석을 옮기며 고민합니다. 우리 팀의 정체성은…</p>
+  ${choicesHtml(TACTICS.map(t=>({t:t.nm,d:t.d})),"pickTac")}
+ </div>`);
+}
+function pickTac(i){
+ G.team.tactic=TACTICS[i].id;snd.click();
+ if(TACTICS[i].atk>=3)G.flags.styleAtk++;if(TACTICS[i].def>=3)G.flags.styleDef++;
+ save();
+ if(G.screen==="tactic"&&G.fix===0&&G.grp.res.length===0&&!G.match){scDeskIntro();}else{scDesk();}
+}
+function scDeskIntro(){
+ render(`<div class="glass panel">
+  <div class="eyebrow">감독실</div>
+  <h2 class="scene">당신의 책상</h2>
+  <p class="lead">협회가 마련해 준 감독 사무실. 가죽 책상 위에 전술 보드와 수첩, 김이 나는 커피가 놓여 있습니다.<br>
+  이곳에서 모든 것을 지휘하게 됩니다. <b style="color:var(--gold2)">☕ 커피를 마시면 다음 일정이 진행</b>됩니다.</p>
+  <div style="margin-top:16px"><button class="btn" onclick="snd.click();scDesk()">책상에 앉는다 →</button></div>
+ </div>`);
+}
+</script>
+<script>
+"use strict";
+/* =========================================================
+   감독의 책상 (허브) & 문서 화면들
+========================================================= */
+function scDesk(){
+ G.screen="desk";save();
+ const fx=FIXTURES[G.fix];
+ const done=!fx;
+ render(`<div class="desk">
+  <div class="eyebrow" style="color:var(--gold2)">감독실 · ${G.name} 감독</div>
+  <h2 class="scene" style="margin-bottom:2px">감독의 책상</h2>
+  <p class="lead" style="color:#D9C7AE">${done?"대회가 끝났습니다. 책상 위가 고요합니다.":`다음 일정: <b style="color:var(--gold2)">${fx.st} vs ${fx.fl} ${fx.opp}</b>`}</p>
+  <div class="deskgrid">
+   ${done?"":`<button class="deskitem di-coffee" onclick="snd.click();startPrep()"><span class="di-ic">☕</span><div><div class="di-t">커피 한 모금</div><div class="di-s">다음 일정 진행</div></div></button>`}
+   <button class="deskitem di-board" onclick="snd.click();scTactic(false)"><span class="di-ic">📋</span><div><div class="di-t">전술 보드</div><div class="di-s">기본 전술 변경</div></div></button>
+   <button class="deskitem di-note" onclick="snd.click();scNotebook()"><span class="di-ic">📓</span><div><div class="di-t">감독 수첩</div><div class="di-s">규칙 도감 ${G.notebook.length}/${Object.keys(RULES).length}</div></div></button>
+   <button class="deskitem di-news" onclick="snd.click();scNews()"><span class="di-ic">🗞️</span><div><div class="di-t">신문 스크랩</div><div class="di-s">기사 ${G.articles.length}건</div></div></button>
+   <button class="deskitem di-sched" onclick="snd.click();scSched()"><span class="di-ic">📅</span><div><div class="di-t">경기 일정표</div><div class="di-s">대진 & 결과</div></div></button>
+   <button class="deskitem di-trophy" onclick="snd.click();scShelf()"><span class="di-ic">🏆</span><div><div class="di-t">트로피 진열장</div><div class="di-s">트로피 ${G.trophies.length} · 업적 ${G.achv.length}</div></div></button>
+   <button class="deskitem di-coach" onclick="snd.click();scGrowth()"><span class="di-ic">📈</span><div><div class="di-t">감독 성장</div><div class="di-s">포인트 ${G.coach.pts}P 보유</div></div></button>
+   <button class="deskitem di-memo" onclick="snd.click();scMemo()"><span class="di-ic">📝</span><div><div class="di-t">메모지</div><div class="di-s">팀 상태 점검</div></div></button>
+  </div>
+ </div>`);
+}
+function backBtn(){return `<div style="margin-top:18px"><button class="btn ghost" onclick="snd.click();scDesk()">← 책상으로</button></div>`;}
+
+function scNotebook(){
+ const keys=Object.keys(RULES);
+ render(`<div class="paperdoc">
+  <h3>📓 감독 수첩 — 규칙 도감</h3>
+  <div class="sub">경기에서 직접 겪은 규칙이 자동으로 기록됩니다 · ${G.notebook.length}/${keys.length}</div>
+  ${keys.map(k=>{
+   const r=RULES[k],open=G.notebook.includes(k);
+   return `<div class="rule-entry ${open?"":"locked"}">
+    <h4>${r.ic} ${open?r.nm:"???"}</h4>
+    ${open?`<p><b>[${COMMNM[G.set.comm][1]}]</b> ${r[G.set.comm]}</p>`:`<p>아직 경험하지 못한 규칙입니다. 경기에서 만나면 기록됩니다.</p>`}
+   </div>`;}).join("")}
+ </div>${backBtn()}`);
+}
+function scNews(){
+ render(`<div class="paperdoc">
+  <h3>🗞️ 글로벌 스포츠 일보 — 스크랩북</h3>
+  <div class="sub">감독님에 관한 기사 모음 · ${G.articles.length}건</div>
+  ${G.articles.length?G.articles.slice().reverse().map(a=>`
+   <div class="rule-entry"><div class="newshead" style="font-size:18px;border-bottom:1px solid #999">${esc(a.h)}</div><p style="font-size:13px">${esc(a.d)}</p></div>`).join("")
+   :"<p>아직 스크랩한 기사가 없습니다. 경기를 치르면 기사가 쌓입니다.</p>"}
+ </div>${backBtn()}`);
+}
+function scSched(){
+ render(`<div class="paperdoc">
+  <h3>📅 글로벌 챔피언십 — 대한민국 일정표</h3>
+  <div class="sub">조별리그 → 16강 → 8강 → 4강 → 결승</div>
+  ${FIXTURES.map((f,i)=>{
+   const r=G.grp.res[i];
+   return `<div class="rule-entry" style="${i===G.fix?"border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)":""}">
+    <h4>${f.fl} ${f.st} · vs ${f.opp} ${i===G.fix?"<span style='color:#9A7B14;font-size:11px'>◀ 다음 경기</span>":""}</h4>
+    <p>${r?`결과: <b>${r}</b>`:`상대 스타일: ${f.style}`}</p></div>`;}).join("")}
+  <p style="font-size:12px;color:#7A6F58">조별리그 승점 ${G.grp.pts}점 · 16강 진출 기준선: 승점 5점 안팎</p>
+ </div>${backBtn()}`);
+}
+function scShelf(){
+ render(`<div class="glass panel">
+  <div class="eyebrow">Trophy Cabinet</div><h2 class="scene">트로피 진열장</h2>
+  ${G.trophies.length?`<div class="shelf">${G.trophies.map(t=>`<div class="shelfitem"><div class="ic">${t.ic}</div><div class="t">${esc(t.nm)}</div><div class="d">${esc(t.d)}</div></div>`).join("")}</div>`:`<p class="lead">아직 비어 있습니다. 유리에 비친 당신의 얼굴만 보입니다.</p>`}
+  <div class="goldline"></div>
+  <h2 class="scene" style="font-size:18px">업적</h2>
+  ${G.achv.length?G.achv.map(a=>`<span class="tag gold">🏅 ${esc(a.nm)}</span>`).join(""):`<p class="lead">업적이 여기에 모입니다.</p>`}
+  <div class="goldline"></div>
+  <h2 class="scene" style="font-size:18px">규칙 카드 컬렉션 (${G.cards.length})</h2>
+  <div>${G.cards.map(k=>`<span class="tag gold">${RULES[k].ic} ${RULES[k].nm}</span>`).join("")||"<p class='lead'>경기에서 규칙을 경험하면 카드를 얻습니다.</p>"}</div>
+ ${backBtn()}</div>`);
+}
+function scMemo(){
+ const cap=SQUAD.find(p=>p.id===G.team.cap);
+ const tac=TACTICS.find(t=>t.id===G.team.tactic);
+ const tr=TRAININGS.find(t=>t.id===G.team.train);
+ render(`<div class="paperdoc" style="background:linear-gradient(160deg,#FFF3A8,#F7E47B);transform:rotate(-.5deg)">
+  <h3>📝 오늘의 메모</h3><div class="sub">${G.name} 감독 친필</div>
+  <p>· 팀 사기 <b>${G.team.morale}</b> / 체력 <b>${G.team.stamina}</b> / 언론 관계 <b>${G.flags.press}</b><br>
+  · 주장: <b>${cap?cap.nm:"-"}</b> / 기본 전술: <b>${tac?tac.nm:"-"}</b><br>
+  · 훈련 키워드: <b>${tr?tr.nm:"-"}</b><br>
+  · 대회 기록: <b>${G.flags.wins}승</b> · 득점 ${G.flags.goals} · 실점 ${G.flags.conceded} ${G.flags.unbeaten?"· 아직 무패!":""}<br>
+  · 감독 능력치 — ${Object.entries(G.coach.stats).map(([k,v])=>STATNM[k]+" "+v).join(" / ")}</p>
+  <p style="margin-top:8px;font-family:var(--serif)">"선택이 감독을 만든다."</p>
+ </div>${backBtn()}`);
+}
+function scGrowth(){
+ G.screen="growth";
+ render(`<div class="glass panel">
+  <div class="eyebrow">Coach Development</div>
+  <h2 class="scene">감독 성장 — 보유 포인트 <span style="color:var(--gold2)">${G.coach.pts}P</span></h2>
+  <p class="lead">경기와 선택에서 얻은 경험이 포인트가 됩니다. 능력치는 경기 곳곳에 실제로 작용합니다.</p>
+  <div class="goldline"></div>
+  ${Object.entries(G.coach.stats).map(([k,v])=>`
+   <div class="statrow"><span class="lb">${STATNM[k]}</span>
+    <span class="bar"><i style="width:${v*10}%"></i></span><span class="vl">${v}</span>
+    <button class="plusbtn" onclick="invest('${k}')" ${G.coach.pts<1||v>=10?"disabled":""}>+</button></div>`).join("")}
+  <p class="hint">전술 감각: 팀 전력↑ · 선수 관리: 사기 유지↑ · 언론 대응: 기자회견 유리 · 체력 관리: 후반 체력↑ · 심리전: 승부차기/도발 상황 유리</p>
+ ${backBtn()}</div>`);
+}
+function invest(k){
+ if(G.coach.pts<1||G.coach.stats[k]>=10)return;
+ G.coach.pts--;G.coach.stats[k]++;snd.ding();save();
+ if(Object.values(G.coach.stats).every(v=>v>=5))addAchv("육각형 감독","모든 능력치 5 이상");
+ scGrowth();
+}
+
+/* =========================================================
+   준비 → 라커룸 → 경기
+========================================================= */
+function startPrep(){
+ const pool=EV.filter(e=>e.ph.includes("pre")&&!G.usedPre.includes(e.id));
+ const e=pool.length?pick(pool):null;
+ if(!e){scScout();return;}
+ G.usedPre.push(e.id);
+ showEvent(e,"대회 준비 · 캠프 소식","scScout");
+}
+let curEv=null,afterEv=null;
+function showEvent(e,label,next){
+ curEv=e;afterEv=next;G.screen="event";
+ render(`${G.match?scorebarHtml():""}<div class="glass panel">
+  <div class="eyebrow">${label}</div>
+  <div class="pitch"><p class="ptxt">${esc(e.txt)}</p></div>
+  ${choicesHtml(e.ch,"chooseEv")}
+ </div>`);
+}
+function chooseEv(i){
+ const e=curEv,c=e.ch[i];snd.click();
+ applyFx(c.fx);
+ let extra="";
+ if(c.sub){
+  if(c.sub.goal){addGoal(true);extra+=`<p class="ptxt" style="color:#FFE08A;font-size:18px">⚽ GOOOOAL! 대한민국 득점!</p>`;snd.goal();}
+  if(c.sub.oppGoal){addGoal(false);extra+=`<p class="ptxt" style="color:#FF9A8A">😨 실점… 전광판이 바뀐다.</p>`;snd.bad();}
+  if(c.sub.useSub)useSubCard();
+ }
+ if(c.fx.useSub)useSubCard();
+ if(c.fx.flag==="rookie")G.flags.rookie=true;
+ if(c.fx.flag==="pkready")G.flags.pkready=true;
+ let riskTxt="";
+ if(c.fx.redRisk&&Math.random()<.30){G.flags.reds++;G.flags.fairplay=false;if(G.match)G.match.def-=3;riskTxt=`<p class="ptxt" style="color:#FF9A8A">🟥 아…! 결국 두 번째 경고로 퇴장! 10명 싸움이 됐다.</p>`;snd.bad();unlockRule("red");}
+ else if(c.fx.cardRisk&&Math.random()<.35){G.flags.fairplay=false;riskTxt=`<p class="ptxt" style="color:#FFD08A">🟨 벤치에 경고가 주어졌다.</p>`;unlockRule("yellow");}
+ if(c.fx.injRisk&&Math.random()<.30){G.team.stamina=clamp(G.team.stamina-5,0,100);riskTxt+=`<p class="ptxt" style="color:#FF9A8A">🩹 우려가 현실로 — 결국 통증이 재발했다.</p>`;}
+ if(c.fx.risk&&Math.random()<.18&&G.match){addGoal(false);riskTxt+=`<p class="ptxt" style="color:#FF9A8A">💥 탈압박 실수가 실점으로! 도전엔 대가가 따른다.</p>`;snd.bad();}
+ const newRule=e.rule?unlockRule(e.rule):false;
+ if(e.rule==="var"||e.rule==="goalline")G.flags.varCount++;
+ if(G.match&&e.rule&&!G.match.rules.includes(e.rule))G.match.rules.push(e.rule);
+ const r=e.rule?RULES[e.rule]:null;
+ render(`${G.match?scorebarHtml():""}<div class="glass panel">
+  <div class="eyebrow">결과</div>
+  <div class="pitch"><p class="ptxt">${esc(c.re)}</p>${extra}${riskTxt}</div>
+  ${r?`<div class="commbox"><div class="avatar">${COMMNM[G.set.comm][0]}</div><div>
+    <div class="who">${COMMNM[G.set.comm][1]} · ${r.ic} ${r.nm}</div>
+    <p>${r[G.set.comm]}</p>
+    ${newRule?`<span class="rulecard-pop">📓 감독 수첩에 기록됨 · 규칙 카드 획득!</span>`:""}
+   </div></div>`:""}
+  <div style="margin-top:18px"><button class="btn" onclick="snd.click();${afterEv}()">계속 →</button></div>
+ </div>`);
+ save();
+}
+function applyFx(fx){
+ if(!fx)return;
+ const man=G.coach.stats.man;
+ if(fx.mo)G.team.morale=clamp(G.team.morale+fx.mo+(fx.mo<0?Math.min(2,Math.floor(man/4)):0),0,100);
+ if(fx.sta)G.team.stamina=clamp(G.team.stamina+fx.sta,0,100);
+ if(fx.xp)G.coach.xp+=fx.xp;
+ if(fx.press)G.flags.press=clamp(G.flags.press+fx.press+(fx.press<0?Math.min(2,Math.floor(G.coach.stats.med/4)):0),0,100);
+ if(G.match){if(fx.atk)G.match.atk+=fx.atk;if(fx.def)G.match.def+=fx.def;}
+ if(fx.atk>0)G.flags.styleAtk+=fx.atk>=2?1:0;
+ if(fx.def>0)G.flags.styleDef+=fx.def>=2?1:0;
+}
+function useSubCard(){if(G.match&&G.match.subs>0)G.match.subs--;}
+function addGoal(us){
+ if(!G.match)return;
+ if(us){G.match.us++;G.flags.goals++;if(G.match.phase>=5)G.flags.lateGoals++;if(G.flags.rookie&&Math.random()<.4)G.flags.rookieGoal=true;}
+ else{G.match.them++;G.flags.conceded++;}
+ if(G.match.them>G.match.us)G.match.wasBehind=true;
+}
+
+/* ---------- 상대 분석 & 날씨 ---------- */
+function scScout(){
+ G.screen="scout";const f=FIXTURES[G.fix];
+ const wx=pick(["맑음 ☀️","비 🌧️","폭염 🥵","구름 ☁️","바람 💨"]);
+ G._wx=wx;
+ render(`<div class="paperdoc">
+  <h3>📂 전력분석 보고서 — ${f.fl} ${f.opp}</h3>
+  <div class="sub">${f.st} · 경기 당일 날씨: ${wx}</div>
+  <p>상대 스타일: <b>${f.style}</b><br>전력 지수: <b>${f.pw}</b> (우리 팀 ${teamRating().toFixed(1)})<br><br>
+  분석관 코멘트: "${pick(["초반 15분 압박만 견디면 공간이 납니다.","세트피스 수비 시 니어포스트 집중이 필요합니다.","상대 에이스의 왼발 컷인을 조심하십시오.","후반 70분 이후 체력이 급격히 떨어지는 팀입니다."])}"</p>
+ </div>
+ <div style="margin-top:14px"><button class="btn" onclick="snd.click();scLineup()">선발 명단 제출 →</button></div>`);
+}
+function scLineup(){
+ G.screen="lineup";const f=FIXTURES[G.fix];
+ const sel=SQUAD.filter(p=>G.team.sel.includes(p.id));
+ render(`<div class="glass panel">
+  <div class="eyebrow">경기 당일 · 명단 제출</div>
+  <h2 class="scene">${f.st} — 선발 명단</h2>
+  <p class="lead">주심에게 명단을 제출했습니다. 주장 <b style="color:var(--gold2)">${SQUAD.find(p=>p.id===G.team.cap).nm}</b>, 그리고 전사들.</p>
+  <div class="squadgrid">${sel.map(p=>`<div class="pcard sel" style="cursor:default"><span class="ovr">${p.ovr}</span><div class="pos">${p.pos}${p.id===G.team.cap?" · Ⓒ":""}</div><div class="nm">${p.nm}</div></div>`).join("")}</div>
+  <div style="margin-top:16px"><button class="btn" onclick="snd.click();scLocker()">라커룸으로 →</button></div>
+ </div>`);
+}
+function scLocker(){
+ G.screen="locker";
+ render(`<div class="glass panel">
+  <div class="eyebrow">킥오프 10분 전 · 라커룸</div>
+  <h2 class="scene">감독의 한마디</h2>
+  <p class="lead">스터드 소리, 파스 냄새, 그리고 침묵. 모든 눈이 당신을 향합니다.</p>
+  ${choicesHtml([
+   {t:"\"즐겨라. 오늘 밤 주인공은 너희다!\"",d:"사기 대폭 상승"},
+   {t:"\"전반 15분, 약속한 플랜대로만 간다.\"",d:"전술 집중력 상승"},
+   {t:"\"수비부터다. 무실점이 우리의 자존심이다.\"",d:"수비 안정 상승"},
+   {t:"조용히 한 명 한 명과 눈을 맞춘다",d:"사기 + 침착함"}
+  ],"pickSpeech")}
+ </div>`);
+}
+function pickSpeech(i){
+ snd.click();
+ const fx=[{mo:7},{atk:2,xp:2},{def:3},{mo:4,def:1}][i];
+ applyFxPre(fx);
+ startMatch();
+}
+function applyFxPre(fx){const m=G.match;applyFx(fx);}
+</script>
+<script>
+"use strict";
+/* =========================================================
+   경기 엔진
+========================================================= */
+const PHASES=[
+ {nm:"전반 초반",min:"전반 12'",tag:"h1"},
+ {nm:"전반 중반",min:"전반 33'",tag:"h1"},
+ {nm:"전반 추가시간",min:"45+2'",tag:"add"},
+ {nm:"하프타임",min:"HT",tag:null},
+ {nm:"후반 초반",min:"후반 58'",tag:"h2"},
+ {nm:"후반 중반",min:"후반 77'",tag:"h2"},
+ {nm:"후반 추가시간",min:"90+3'",tag:"add"},
+ {nm:"풀타임",min:"FT",tag:null},
+ {nm:"연장 전반",min:"연장 98'",tag:"et"},
+ {nm:"연장 후반",min:"연장 112'",tag:"et"},
+ {nm:"연장 종료",min:"AET",tag:null}
+];
+function scorebarHtml(){
+ const m=G.match;if(!m)return"";
+ return `<div class="scorebar glass" style="flex-wrap:wrap;margin-bottom:14px">
+  <div class="clock">${PHASES[m.phase]?PHASES[m.phase].min:""} · ${esc(m.st)}</div>
+  <div class="team">🇰🇷 대한민국</div>
+  <div class="score">${m.us} : ${m.them}</div>
+  <div class="team">${m.fl} ${esc(m.opp)}</div>
+ </div>`;
+}
+function startMatch(){
+ const f=FIXTURES[G.fix];
+ const tac=TACTICS.find(t=>t.id===G.team.tactic)||TACTICS[1];
+ const tr=G.team.train;
+ G.match={st:f.st,opp:f.opp,fl:f.fl,pw:f.pw,ko:f.ko,us:0,them:0,
+  atk:tac.atk+(tr==="press"?1:0)+(tr==="setpiece"?1:0),
+  def:tac.def+(tr==="press"?1:0),
+  subs:5,phase:0,used:[],log:[],rules:[],wasBehind:false,et:false};
+ if(tr==="fitness")G.team.stamina=clamp(G.team.stamina+4,0,100);
+ G.team.stamina=clamp(G.team.stamina+tac.sta,0,100);
+ save();snd.whistle();
+ render(`${scorebarHtml()}<div class="glass panel">
+  <div class="eyebrow">킥오프</div>
+  <h2 class="scene">${esc(f.st)} · vs ${f.fl} ${esc(f.opp)}</h2>
+  <p class="lead">애국가가 끝나고, 6만 관중의 함성이 경기장을 흔듭니다.<br>주심이 시계를 확인하고… <b style="color:var(--gold2)">휘슬!</b> 경기 시작!</p>
+  <div style="margin-top:14px"><button class="btn" onclick="snd.click();startPhase()">경기 진행 →</button></div>
+ </div>`);
+}
+function startPhase(){
+ const m=G.match;if(!m){scDesk();return;}
+ G.screen="match";save();
+ if(m.phase===3){scHalftime();return;}
+ if(m.phase===7){fullTime();return;}
+ if(m.phase===10){afterET();return;}
+ const ph=PHASES[m.phase];
+ render(`${scorebarHtml()}<div class="glass panel">
+  <div class="eyebrow">경기 진행 · ${ph.nm}</div>
+  <h2 class="scene" style="font-size:22px">${ph.nm} — 벤치에서 본 흐름</h2>
+  ${m.log.length?`<div class="ticker" style="margin:10px 0">${m.log.map(l=>`<div>${l}</div>`).join("")}</div>`:`<p class="lead">아직 기록할 장면은 없습니다. 양 팀 모두 탐색전.</p>`}
+  <div style="margin-top:12px"><button class="btn" onclick="snd.click();matchEvent()">다음 상황 →</button></div>
+ </div>`);
+}
+function matchEvent(){
+ const m=G.match,ph=PHASES[m.phase];
+ const pool=EV.filter(e=>e.ph.includes(ph.tag)&&!m.used.includes(e.id));
+ if(!pool.length){endPhase();return;}
+ const e=pick(pool);m.used.push(e.id);
+ showEvent(e,`${esc(m.st)} · ${ph.nm}`,"endPhase");
+}
+function scorerName(){
+ const sel=SQUAD.filter(p=>G.team.sel.includes(p.id)&&p.pos!=="GK");
+ const w=sel.map(p=>p.pos==="FW"?4:p.pos==="MF"?2:1);
+ let t=Math.random()*w.reduce((a,b)=>a+b,0);
+ for(let i=0;i<sel.length;i++){t-=w[i];if(t<=0)return sel[i].nm;}
+ return sel[0].nm;
+}
+function endPhase(){
+ const m=G.match,ph=PHASES[m.phase];
+ /* 페이즈 자동 득점 시뮬레이션 */
+ const diff=teamRating()-m.pw;
+ const fatigue=(G.team.stamina-70)*0.002;
+ let pUs=clamp(0.20+diff*0.013+m.atk*0.012+fatigue,0.05,0.55);
+ let pThem=clamp(0.18-diff*0.011-m.def*0.013-fatigue,0.04,0.50);
+ if(ph.tag==="add"){pUs*=0.6;pThem*=0.6;}
+ let msg="";
+ if(Math.random()<pUs){const sc=scorerName();addGoal(true);m.log.push(`<span class="goal">${ph.min} ⚽ ${sc} 골! 대한민국 ${m.us}:${m.them}</span>`);msg+=`<p class="ptxt" style="color:#FFE08A;font-size:18px">⚽ ${ph.min} — ${sc}의 골이 터졌다!!</p>`;snd.goal();}
+ if(Math.random()<pThem){addGoal(false);m.log.push(`${ph.min} 😨 ${esc(m.opp)} 득점 ${m.us}:${m.them}`);msg+=`<p class="ptxt" style="color:#FF9A8A">${ph.min} — ${esc(m.opp)}에게 실점… ${m.us}:${m.them}</p>`;snd.bad();}
+ G.team.stamina=clamp(G.team.stamina-(ph.tag==="et"?5:3)+(G.coach.stats.fit>=5?1:0),0,100);
+ m.phase++;save();
+ if(msg){
+  render(`${scorebarHtml()}<div class="glass panel">
+   <div class="eyebrow">${ph.nm} 마무리</div>
+   <div class="pitch">${msg}</div>
+   <div style="margin-top:14px"><button class="btn" onclick="snd.click();startPhase()">계속 →</button></div>
+  </div>`);
+ }else startPhase();
+}
+/* ---------- 하프타임 ---------- */
+function scHalftime(){
+ const m=G.match;G.screen="match";snd.whistle();
+ const lead=m.us>m.them?"리드 중입니다. 그러나 45분이 더 남았습니다.":m.us<m.them?"끌려가고 있습니다. 라커룸의 공기가 무겁습니다.":"팽팽합니다. 후반 첫 15분이 승부처입니다.";
+ render(`${scorebarHtml()}<div class="glass panel">
+  <div class="eyebrow">하프타임 · 라커룸</div>
+  <h2 class="scene">15분의 마법</h2>
+  <p class="lead">${lead} 감독의 선택은?</p>
+  ${choicesHtml([
+   {t:"⚔️ 공격 수위를 올린다",d:"공격 +3 / 체력 -4 — 골이 필요할 때"},
+   {t:"🛡️ 수비 라인을 정비한다",d:"수비 +3 — 리드를 지킬 때"},
+   {t:"🔁 지친 선수 2명 교체",d:"체력 +9 / 교체카드 -2 (교체 규정 학습)"},
+   {t:"🗣️ 전술 대신 마음을 만진다",d:"사기 +6 — 『너희를 믿는다』"}
+  ],"pickHalf")}
+  <p class="hint">남은 교체 카드: ${m.subs}장</p>
+ </div>`);
+}
+function pickHalf(i){
+ const m=G.match;snd.click();
+ if(i===0){m.atk+=3;G.team.stamina=clamp(G.team.stamina-4,0,100);}
+ else if(i===1){m.def+=3;G.flags.styleDef++;}
+ else if(i===2){
+  if(m.subs>=2){m.subs-=2;G.team.stamina=clamp(G.team.stamina+9,0,100);unlockRule("sub");toast("교체 2장 사용 — 신선한 다리 투입");}
+  else{toast("교체 카드가 부족합니다! 대신 팀토크.");G.team.morale=clamp(G.team.morale+4,0,100);}
+ }
+ else{G.team.morale=clamp(G.team.morale+6,0,100);}
+ m.phase=4;save();startPhase();
+}
+/* ---------- 풀타임 / 연장 / 승부차기 ---------- */
+function fullTime(){
+ const m=G.match;snd.whistle();
+ if(m.us!==m.them||!m.ko){finishMatch();return;}
+ /* 토너먼트 무승부 → 연장 */
+ G.flags.etPlayed++;unlockRule("extratime");m.et=true;m.phase=8;
+ G.team.stamina=clamp(G.team.stamina-6,0,100);
+ const r=RULES.extratime;
+ render(`${scorebarHtml()}<div class="glass panel">
+  <div class="eyebrow">90분 종료 · ${m.us}:${m.them}</div>
+  <h2 class="scene">연장전 돌입</h2>
+  <p class="lead">토너먼트에는 무승부가 없습니다. 전·후반 15분씩, 추가 30분의 전쟁.</p>
+  <div class="commbox"><div class="avatar">${COMMNM[G.set.comm][0]}</div><div>
+   <div class="who">${COMMNM[G.set.comm][1]} · ${r.ic} ${r.nm}</div><p>${r[G.set.comm]}</p>
+  </div></div>
+  <div style="margin-top:14px"><button class="btn" onclick="snd.click();save();startPhase()">연장전 시작 →</button></div>
+ </div>`);
+}
+function afterET(){
+ const m=G.match;
+ if(m.us!==m.them){finishMatch();return;}
+ startShootout();
+}
+/* ---------- 승부차기 ---------- */
+let PK=null;
+function startShootout(){
+ unlockRule("shootout");snd.whistle();
+ const kickers=SQUAD.filter(p=>G.team.sel.includes(p.id)&&p.pos!=="GK")
+  .sort((a,b)=>b.ovr-a.ovr).slice(0,8);
+ PK={round:1,us:[],them:[],kickers,sudden:false};
+ const r=RULES.shootout;
+ render(`${scorebarHtml()}<div class="glass panel">
+  <div class="eyebrow">연장 종료 · ${G.match.us}:${G.match.them}</div>
+  <h2 class="scene">⚽ 승부차기</h2>
+  <p class="lead">120분으로도 부족했습니다. 이제 11미터의 심리전. 센터서클에 어깨동무한 선수들, 그리고 홀로 걸어나가는 키커.</p>
+  <div class="commbox"><div class="avatar">${COMMNM[G.set.comm][0]}</div><div>
+   <div class="who">${COMMNM[G.set.comm][1]} · ${r.ic} ${r.nm}</div><p>${r[G.set.comm]}</p>
+  </div></div>
+  <div style="margin-top:14px"><button class="btn" onclick="snd.click();pkRound()">1번 키커 입장 →</button></div>
+ </div>`);
+}
+function pkBoard(){
+ const cell=v=>v===undefined?"·":v?"⭕":"❌";
+ const n=Math.max(5,PK.us.length,PK.them.length);
+ let a="",b="";
+ for(let i=0;i<n;i++){a+=`<span style="font-size:20px;margin:0 3px">${cell(PK.us[i])}</span>`;b+=`<span style="font-size:20px;margin:0 3px">${cell(PK.them[i])}</span>`;}
+ return `<div class="glass" style="padding:12px;border-radius:14px;text-align:center;margin-bottom:12px">
+  <div style="font-size:13px;font-weight:900">🇰🇷 ${a}</div>
+  <div style="font-size:13px;font-weight:900;margin-top:6px">${G.match.fl} ${b}</div></div>`;
+}
+function pkRound(){
+ const k=PK.kickers[(PK.round-1)%PK.kickers.length];
+ G.screen="match";
+ render(`${scorebarHtml()}${pkBoard()}<div class="glass panel">
+  <div class="eyebrow">승부차기 ${PK.sudden?"서든데스":PK.round+"번 키커"}</div>
+  <h2 class="scene" style="font-size:22px">${k.nm} (${k.pos} · ${k.ovr})</h2>
+  <p class="lead">키커가 공을 페널티 마크에 놓고 당신을 바라봅니다. 어떤 지시를?</p>
+  ${choicesHtml([
+   {t:"🎯 \"네가 늘 차던 구석으로. 침착하게.\"",d:"안정적 — 성공률 높음"},
+   {t:"💥 \"가장 강하게. 키퍼가 알아도 못 막게.\"",d:"파워 — 막혀도 후회 없다"},
+   {t:"🧊 \"키퍼가 움직일 때까지 기다려. 파넨카도 좋다.\"",d:"심리전 — 위험하지만 상대 키퍼가 무너진다"},
+   {t:"🤝 \"네 판단을 믿는다. 즐겨라.\"",d:"사기와 심리전 스탯에 따라 좌우"}
+  ],"pkKick")}
+ </div>`);
+}
+function pkKick(i){
+ snd.click();
+ const psy=G.coach.stats.psy,bonus=(G.team.train==="pkdrill"?8:0)+(G.flags.pkready?7:0)+psy*1.5;
+ const base=[76,70,58,66][i]+bonus+( [0,0,psy*1.5,G.team.morale*0.08][i] );
+ const ok=Math.random()*100<clamp(base,35,93);
+ PK.us.push(ok);
+ if(ok)snd.goal();else snd.bad();
+ /* 상대 키커 */
+ const saveCh=20+psy*1.8+(G.team.train==="pkdrill"?6:0)+(i===2?6:0);
+ const themOk=Math.random()*100>clamp(saveCh,10,55)?true:false;
+ PK.them.push(themOk);
+ const usGoals=PK.us.filter(Boolean).length,themGoals=PK.them.filter(Boolean).length;
+ const n=PK.us.length;
+ /* 종료 판정 */
+ let done=false,win=false;
+ if(!PK.sudden){
+  const remUs=5-n,remThem=5-n;
+  if(usGoals>themGoals+remThem){done=true;win=true;}
+  else if(themGoals>usGoals+remUs){done=true;win=false;}
+  else if(n>=5){if(usGoals!==themGoals){done=true;win=usGoals>themGoals;}else PK.sudden=true;}
+ }else{
+  if(usGoals!==themGoals){done=true;win=usGoals>themGoals;}
+ }
+ const txt=`<div class="pitch">
+  <p class="ptxt" style="color:${ok?"#FFE08A":"#FF9A8A"};font-size:17px">${ok?"⚽ 골망이 출렁인다! 성공!":"❌ 아…! 막혔다/빗나갔다!"}</p>
+  <p class="ptxt" style="color:${themOk?"#FF9A8A":"#9FE3B0"}">상대 키커 — ${themOk?"성공. 침착하다.":"우리 백한결 골키퍼가 막아냈다!! 🧤"}</p>
+ </div>`;
+ if(done){
+  if(win){G.flags.pkWins++;addTrophy("11미터의 사나이","승부차기 승리","🥅");}
+  G.match.pk={us:usGoals,them:themGoals,win};
+  render(`${scorebarHtml()}${pkBoard()}<div class="glass panel"><div class="eyebrow">승부차기 종료</div>${txt}
+   <p class="lead" style="margin-top:10px">승부차기 스코어 <b style="color:var(--gold2)">${usGoals}:${themGoals}</b></p>
+   <div style="margin-top:12px"><button class="btn" onclick="snd.click();finishMatch()">결과 확인 →</button></div></div>`);
+ }else{
+  PK.round++;
+  render(`${scorebarHtml()}${pkBoard()}<div class="glass panel"><div class="eyebrow">승부차기 진행 중 · ${usGoals}:${themGoals}</div>${txt}
+   <div style="margin-top:12px"><button class="btn" onclick="snd.click();pkRound()">다음 키커 →</button></div></div>`);
+ }
+}
+/* =========================================================
+   경기 종료 → 리포트 → 기자회견 → 다음
+========================================================= */
+function finishMatch(){
+ const m=G.match;snd.whistle();
+ let res; // W/D/L
+ if(m.pk)res=m.pk.win?"W":"L";
+ else res=m.us>m.them?"W":m.us<m.them?"L":"D";
+ m.res=res;
+ /* 플래그/기록 */
+ if(res==="W"){G.flags.wins++;if(m.wasBehind)G.flags.comebacks++;}
+ if(res==="L"&&!m.pk)G.flags.unbeaten=false;
+ if(m.them===0)G.flags.cleanSheets++;
+ /* 사기/체력 */
+ G.team.morale=clamp(G.team.morale+(res==="W"?8:res==="D"?1:-7)+(G.coach.stats.man>=5?2:0),0,100);
+ G.team.stamina=clamp(G.team.stamina+(res==="W"?-2:-4),0,100);
+ /* XP & 성장 포인트 */
+ const gain=20+(res==="W"?22:res==="D"?10:4)+m.us*3+(m.them===0?6:0)+(m.pk&&m.pk.win?8:0);
+ G.coach.xp+=gain;G.coach.pts+=(res==="W"?3:res==="D"?2:1);
+ /* 조별리그 승점 */
+ if(!m.ko){G.grp.pts+=(res==="W"?3:res==="D"?1:0);G.grp.res.push({gf:m.us,ga:m.them,r:res});}
+ /* 트로피 */
+ if(res==="W"){
+  if(m.st==="16강")addTrophy("16강 격파","녹아웃 첫 관문 통과","🎖️");
+  if(m.st==="8강")addTrophy("4강 신화 시작","8강에서 강호 격침","🏅");
+  if(m.st==="4강")addTrophy("결승 진출","조국을 결승으로","🌟");
+  if(m.st==="결승"){addTrophy("글로벌 챔피언십 우승","세계 정상에 서다","🏆");if(G.flags.unbeaten)addTrophy("무패 우승","단 한 번도 지지 않았다","👑");}
+ }
+ if(m.them===0&&res==="W")addAchv("클린시트 승리","무실점 승리 달성");
+ if(m.wasBehind&&res==="W")addAchv("역전극의 연출가","뒤지던 경기를 뒤집다");
+ /* 신문 기사 */
+ const hl=res==="W"?pick([`대한민국, ${m.opp} 격침! ${m.us}-${m.them} ${m.pk?`(PK ${m.pk.us}-${m.pk.them})`:""}`,`${G.name} 매직! ${m.opp}전 승리`,`태극전사, ${m.st}에서 ${m.opp} 제압`])
+  :res==="D"?`혈투 끝 무승부… ${m.opp}전 ${m.us}-${m.them}`
+  :pick([`아쉬운 패배… ${m.opp}에 ${m.us}-${m.them}${m.pk?` (PK ${m.pk.us}-${m.pk.them})`:""}`,`${m.st}의 눈물, ${m.opp}의 벽`]);
+ addArticle(hl,`${m.st} · 관중 63,000명 · 감독 ${G.name}의 선택이 ${res==="W"?"빛난":"시험대에 오른"} 90분이었다.`);
+ save();scReport();
+}
+function scReport(){
+ const m=G.match;G.screen="report";
+ const RES={W:["승리!","#FFE08A"],D:["무승부","#C5D2E8"],L:["패배…","#FF9A8A"]};
+ render(`<div class="glass panel" style="text-align:center">
+  <div class="eyebrow">${esc(m.st)} 최종 결과</div>
+  <div class="bigresult" style="color:${RES[m.res][1]}">${RES[m.res][0]}</div>
+  <div class="scorebar" style="margin:10px 0;flex-wrap:wrap">
+   <div class="team">🇰🇷 대한민국</div><div class="score">${m.us} : ${m.them}</div><div class="team">${m.fl} ${esc(m.opp)}</div>
+   ${m.pk?`<div class="clock">승부차기 ${m.pk.us} : ${m.pk.them}</div>`:""}
+  </div>
+  <div style="text-align:left">
+   ${m.log.length?`<p class="lead" style="margin:8px 0 4px">📺 하이라이트</p><div class="ticker">${m.log.map(l=>`<div>${l}</div>`).join("")}</div>`:""}
+   ${m.rules.length?`<p class="lead" style="margin:12px 0 4px">📓 오늘 경기에서 배운 규칙</p><div>${m.rules.map(k=>`<span class="tag gold">${RULES[k].ic} ${RULES[k].nm}</span>`).join("")}</div>`:""}
+   <p class="lead" style="margin-top:12px">✨ 경험치 획득 · 성장 포인트 <b style="color:var(--gold2)">+${m.res==="W"?3:m.res==="D"?2:1}</b> (감독실 책상 → 성장에서 투자)</p>
+  </div>
+  <div style="margin-top:14px"><button class="btn" onclick="snd.click();scPress()">기자회견장으로 →</button></div>
+ </div>`);
+ save();
+}
+/* ---------- 기자회견 ---------- */
+const PRESSQ=[
+ {q:"오늘 심판 판정, 어떻게 보셨습니까?",ch:[
+  {t:"\"판정은 경기의 일부입니다. 존중합니다.\"",fx:{press:6},re:"기자들이 고개를 끄덕인다. '품격 있는 감독'이라는 제목이 보인다."},
+  {t:"\"솔직히 몇 장면은 이해하기 어려웠습니다.\"",fx:{press:-6,mo:3},re:"선수들은 감독이 방패가 되어줬다고 느낀다. 헤드라인은 좀 매워질 것이다."},
+  {t:"\"VAR이 있어 다행이죠. 규칙이 곧 공정함입니다.\"",fx:{press:3,xp:2},re:"규칙을 아는 감독. 해설위원들이 트위터에서 칭찬한다."}]},
+ {q:"다음 상대를 어떻게 분석하고 계십니까?",ch:[
+  {t:"\"한 경기씩. 다음 상대만 봅니다.\"",fx:{press:3},re:"교과서적인 답변. 무난하다."},
+  {t:"\"우리가 더 강합니다. 두렵지 않습니다.\"",fx:{press:-2,mo:5},re:"도발성 발언이 상대 라커룸 게시판에 붙을 것이다. 우리 선수들은 불타오른다."},
+  {t:"\"분석은 끝났습니다. 비밀이지만요. (웃음)\"",fx:{press:5},re:"기자단에 웃음이 터진다. 여유 있는 감독."}]},
+ {q:"오늘 교체 타이밍에 대한 비판이 있습니다.",ch:[
+  {t:"\"결과로 말하겠습니다.\"",fx:{press:-3,mo:2},re:"짧고 단단한 답. 호불호가 갈린다."},
+  {t:"\"좋은 지적입니다. 데이터를 다시 보겠습니다.\"",fx:{press:6,xp:2},re:"겸손함이 기사 톤을 바꾼다."},
+  {t:"\"벤치에서 보이는 것이 있습니다.\"",fx:{press:1},re:"현장의 감각을 강조했다."}]},
+ {q:"선수들의 체력 관리, 비결이 있습니까?",ch:[
+  {t:"\"회복도 훈련입니다. 잠과 식단부터 챙깁니다.\"",fx:{press:4,xp:1},re:"전문적인 답변에 기자들이 받아 적는다."},
+  {t:"\"선수들이 잘 버텨주고 있을 뿐입니다.\"",fx:{press:2,mo:3},re:"공을 선수에게 돌렸다. 라커룸이 흐뭇해한다."}]},
+ {q:"우승 가능성, 몇 퍼센트라고 보십니까?",ch:[
+  {t:"\"숫자는 모르겠고, 준비는 100%입니다.\"",fx:{press:5},re:"명언 제조기. 내일 1면 후보."},
+  {t:"\"100%. 우리는 우승하러 왔습니다.\"",fx:{press:-1,mo:6},re:"부담을 스스로 짊어졌다. 선수들의 눈빛이 달라진다."},
+  {t:"\"축구공은 둥급니다. 그래서 재밌죠.\"",fx:{press:3},re:"여유로운 미소. 베테랑의 향기."}]}
+];
+let curPQ=null;
+function scPress(){
+ G.screen="report";curPQ=pick(PRESSQ);
+ render(`<div class="glass panel">
+  <div class="eyebrow">공식 기자회견</div>
+  <h2 class="scene">플래시 세례 속으로</h2>
+  <div class="pitch"><p class="ptxt">🎤 "${esc(curPQ.q)}"</p></div>
+  ${choicesHtml(curPQ.ch.map(c=>({t:c.t})),"pressAnswer")}
+  <p class="hint">언론 대응 스탯이 높으면 부정적 여파가 줄어듭니다 · 현재 언론 관계 ${G.flags.press}</p>
+ </div>`);
+}
+function pressAnswer(i){
+ snd.click();const c=curPQ.ch[i];applyFx(c.fx);
+ render(`<div class="glass panel">
+  <div class="eyebrow">기자회견 · 반응</div>
+  <div class="pitch"><p class="ptxt">${esc(c.re)}</p></div>
+  <div style="margin-top:14px"><button class="btn" onclick="snd.click();nextStep()">다음 →</button></div>
+ </div>`);
+ save();
+}
+/* ---------- 다음 단계 분기 ---------- */
+function nextStep(){
+ const m=G.match;
+ const isFinal=m.st==="결승";
+ const won=m.res==="W";
+ G.match=null;
+ /* 조별리그 종료 판정 */
+ if(G.fix===2&&G.grp.res.length>=3){
+  if(G.grp.pts>=5){addTrophy("조별리그 통과","16강 진출 확정","🎫");G.fix=3;save();qualifyScene(true);return;}
+  if(G.grp.pts===4){
+   const lucky=Math.random()<0.5;
+   if(lucky){addTrophy("조별리그 통과","극적인 16강 진출","🎫");G.fix=3;save();qualifyScene(true,true);return;}
+   save();scEnding();return;
+  }
+  save();scEnding();return;
+ }
+ if(m.ko){ if(!won){save();scEnding();return;} if(isFinal){save();scEnding();return;} }
+ G.fix++;save();
+ render(`<div class="glass panel">
+  <div class="eyebrow">대회 일정</div>
+  <h2 class="scene">${won?"다음 라운드가 기다린다":"다음 경기를 준비하라"}</h2>
+  <p class="lead">버스가 호텔로 돌아갑니다. 창밖으로 응원 깃발이 흔들립니다.<br>다음 상대: <b style="color:var(--gold2)">${FIXTURES[G.fix].fl} ${FIXTURES[G.fix].opp}</b> (${FIXTURES[G.fix].st})</p>
+  <div style="margin-top:14px"><button class="btn" onclick="snd.click();scDesk()">감독실로 →</button></div>
+ </div>`);
+}
+function qualifyScene(ok,lucky){
+ render(`<div class="glass panel" style="text-align:center">
+  <div class="eyebrow">조별리그 최종 결과</div>
+  <div class="bigresult" style="color:#FFE08A">16강 진출!</div>
+  <p class="lead">${lucky?"다른 경기 결과가 우리를 도왔습니다. 축구의 신은 가끔 미소를 짓습니다.":"승점 "+G.grp.pts+"점. 당당한 토너먼트 진출입니다."}<br>다음 상대: <b style="color:var(--gold2)">🇯🇵 일본 (16강)</b></p>
+  <div style="margin-top:14px"><button class="btn" onclick="snd.click();scDesk()">감독실로 →</button></div>
+ </div>`);snd.ding();
+}
+/* =========================================================
+   엔딩 시스템 (20+)
+========================================================= */
+function reachedStage(){
+ /* 어디까지 갔는가 */
+ if(G.grp.res.length>=3&&G.fix<=2)return "group";
+ if(G.fix===3)return "r16";
+ if(G.fix===4)return "qf";
+ if(G.fix===5)return "sf";
+ if(G.fix===6)return "final";
+ return "group";
+}
+function buildEndings(champ,stage){
+ const f=G.flags,s=G.coach.stats;
+ const E=[];
+ const add=(cond,ic,nm,d)=>{if(cond)E.push({ic,nm,d});};
+ add(champ&&f.unbeaten&&G.team.morale>=75,"👑","전설의 감독","무패 우승, 그리고 선수들의 마음까지 얻었다. 100년 뒤에도 회자될 이름.");
+ add(champ&&f.unbeaten,"🛡️","무패 우승","단 한 번도 무릎 꿇지 않고 정상에 섰다.");
+ add(champ&&s.tac>=8,"🧠","전술 천재","상대 감독들이 당신의 화이트보드를 두려워한다.");
+ add(champ&&f.fairplay,"🤍","페어플레이의 사도","카드 한 장 없이 우승컵을 들었다. 축구가 아름다운 이유.");
+ add(f.pkWins>=2,"🥅","승부차기의 황제","11미터 앞에서 당신의 팀은 떨지 않는다.");
+ add(f.varCount>=4,"📺","VAR 마스터","비디오 판독의 순간마다 침착했던 감독.");
+ add(f.lateGoals>=3,"🎭","극장골 연출가","추가시간, 관중들은 자리를 뜨지 못한다.");
+ add(f.goals>=14,"🔥","공격 축구의 광인","\"한 골 먹으면 두 골 넣는다\" — 당신의 철학.");
+ add(f.cleanSheets>=4,"🧱","수비 축구의 장인","골문 앞에 만리장성을 쌓았다.");
+ add(f.rookieGoal,"🌱","신인 조련사","18세 구슬찬의 골 — 한국 축구의 10년을 벌었다.");
+ add(f.comebacks>=2,"🔄","역전의 명수","끌려가도 당황하지 않는다. 벤치에 당신이 있으니까.");
+ add(f.press>=80,"📰","언론의 친구","기자실에 당신의 팬클럽이 생겼다.");
+ add(f.press<=20,"🌶️","언론의 적","헤드라인은 매웠지만, 선수단은 당신 뒤에 섰다.");
+ add(G.team.morale>=85,"❤️","선수들의 아버지","계약이 끝나도 선수들은 당신에게 안부를 묻는다.");
+ add(G.notebook.length>=Object.keys(RULES).length,"📚","걸어다니는 규정집","규칙 도감 완성. 심판도 당신에게 물어본다.");
+ add(f.etPlayed>=2,"⏱️","120분의 사나이","연장전이 두렵지 않은 강철 체력 군단.");
+ add(s.psy>=8,"🧊","심리전의 대가","상대는 경기 전부터 이미 지고 있었다.");
+ add(f.reds===0&&f.fairplay,"😇","신사 감독","퇴장 없는 대회. 품격이 곧 전술이었다.");
+ /* 성적 엔딩 (항상 1개 보장) */
+ add(champ,"🏆","우승 감독","글로벌 챔피언십 정상. 공항에 5만 명이 모였다.");
+ add(!champ&&stage==="final","🥈","준우승의 한","결승의 패배는 평생 가슴에 남지만, 국민은 박수를 보냈다.");
+ add(!champ&&stage==="sf","🌟","4강 신화","세계 4강. 거리는 붉은 물결이었다.");
+ add(!champ&&stage==="qf","🏅","8강의 자존심","강호들과 어깨를 나란히 했다.");
+ add(!champ&&stage==="r16","🎖️","16강의 추억","토너먼트의 벽은 높았지만 미래를 보았다.");
+ add(!champ&&stage==="group","✈️","조별리그 탈락","이른 귀국길. 그러나 노트에는 다음 대회의 답이 적혀 있다.");
+ return E;
+}
+function scEnding(){
+ G.screen="ending";endingMode=true;
+ const stage=reachedStage();
+ const champ=G.trophies.some(t=>t.nm==="글로벌 챔피언십 우승");
+ const E=buildEndings(champ,stage);
+ const main=E[0]||{ic:"⚽",nm:"여정의 끝",d:"하나의 대회가 끝났다."};
+ const others=E.slice(1);
+ if(champ)snd.goal();else snd.whistle();
+ addArticle(champ?`${G.name} 감독, 대한민국을 세계 정상에 올리다`:`${G.name}호의 도전, ${main.nm}으로 막 내리다`,"대회 결산 특집 · 스포츠연감 보존판");
+ save();
+ render(`<div class="glass panel" style="text-align:center">
+  <div class="eyebrow">THE FINAL WHISTLE · 대회 종료</div>
+  <div class="bigresult">${main.ic}</div>
+  <h2 class="scene" style="font-size:clamp(26px,6vw,40px)">${main.nm}</h2>
+  <p class="lead" style="max-width:560px;margin:0 auto">${main.d}</p>
+  <div class="goldline"></div>
+  ${others.length?`<p class="lead" style="margin-bottom:6px">🎬 함께 달성한 엔딩 ${others.length}개</p>
+  <div style="text-align:left;display:inline-block">${others.map(e=>`<span class="tag gold">${e.ic} ${e.nm}</span>`).join(" ")}</div>`:""}
+  <div class="paperdoc" style="margin-top:18px;text-align:left">
+   <h3>📋 ${esc(G.name)} 감독 대회 결산</h3><div class="sub">GLOBAL CHAMPIONSHIP · FINAL REPORT</div>
+   <p>전적 <b>${G.flags.wins}승</b> · 득점 ${G.flags.goals} · 실점 ${G.flags.conceded} · 클린시트 ${G.flags.cleanSheets}<br>
+   승부차기 승리 ${G.flags.pkWins} · 역전승 ${G.flags.comebacks} · 극장골 ${G.flags.lateGoals}<br>
+   규칙 도감 ${G.notebook.length}/${Object.keys(RULES).length} · 트로피 ${G.trophies.length} · 업적 ${G.achv.length} · 신문 스크랩 ${G.articles.length}</p>
+  </div>
+  <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+   <button class="btn ghost" onclick="snd.click();scShelf()">🏆 트로피 진열장 보기</button>
+   <button class="btn ghost" onclick="snd.click();scNotebook()">📓 감독 수첩 보기</button>
+   <button class="btn" onclick="snd.click();endingMode=false;store.del(SAVE_KEY);newGame();scTitle()">🔁 새로운 도전 (다른 엔딩 노리기)</button>
+  </div>
+  <p class="hint">엔딩은 20종 이상! 전술·언론·승부차기 플레이에 따라 달라집니다.</p>
+ </div>`);
+}
+/* 엔딩 화면에서 진열장/수첩 본 뒤 돌아올 수 있게 backBtn 보정 */
+const _origBack=backBtn;
+let endingMode=false;
+backBtn=function(){return endingMode?`<button class="btn ghost" onclick="snd.click();scEnding()">← 결산으로</button>`:_origBack();};
+/* =========================================================
+   초기화
+========================================================= */
+newGame();
+scTitle();
+</script>
+</body>
+</html>
