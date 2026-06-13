@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>감독의 선택 — Coach's Choice</title>
+<title>라스트 휘슬 — Last Whistle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -194,7 +194,7 @@ button:focus-visible,.choice:focus-visible{outline:2px solid var(--gold2);outlin
 <script>
 "use strict";
 /* =========================================================
-   감독의 선택 (Coach's Choice) — 인터랙티브 감독 시뮬레이터
+   라스트 휘슬 (Last Whistle) — 인터랙티브 감독 시뮬레이터
    가상의 대회 "글로벌 챔피언십" / 모든 선수는 가상 인물
 ========================================================= */
 
@@ -761,7 +761,7 @@ function teamRating(){
 /* ---------- 화면 렌더 공통 ---------- */
 function render(html,cls){
  APP().innerHTML=`<div class="topbar">
-   <div class="brand">감독의 선택<small>COACH'S CHOICE</small></div>
+   <div class="brand">라스트 휘슬<small>Last Whistle</small></div>
    <div class="statchips">${G&&G.screen!=="title"&&G.screen!=="setup"?`
      <span class="chip">😊 사기 <b>${G.team.morale}</b></span>
      <span class="chip">⚡ 체력 <b>${G.team.stamina}</b></span>
@@ -811,7 +811,7 @@ function scTitle(){
  G.screen="title";
  render(`<div class="glass panel" style="text-align:center;padding:48px 22px">
   <div class="eyebrow">Interactive Manager Story</div>
-  <h1 class="display">감독의 선택</h1>
+  <h1 class="display">라스트 휘슬</h1>
   <p class="lead" style="max-width:560px;margin:14px auto 0">가상의 국제 대회 <b style="color:var(--gold2)">글로벌 챔피언십</b>.<br>
   당신은 대한민국 대표팀의 새 감독입니다.<br>모든 선택이 팀의 운명을, 그리고 당신의 전설을 만듭니다.</p>
   <div class="goldline" style="margin:24px auto;max-width:200px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
@@ -1258,7 +1258,7 @@ function scHalftime(){
  render(`${scorebarHtml()}<div class="glass panel">
   <div class="eyebrow">하프타임 · 라커룸</div>
   <h2 class="scene">15분의 마법</h2>
-  <p class="lead">${lead} 감독의 선택은?</p>
+  <p class="lead">${lead} 라스트 휘슬은?</p>
   ${choicesHtml([
    {t:"⚔️ 공격 수위를 올린다",d:"공격 +3 / 체력 -4 — 골이 필요할 때"},
    {t:"🛡️ 수비 라인을 정비한다",d:"수비 +3 — 리드를 지킬 때"},
